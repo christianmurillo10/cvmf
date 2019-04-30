@@ -8,12 +8,6 @@ use backend\models\Employees;
 use backend\models\TripPersonnels;
 ?>
 
-<style>
-    .box-body {
-        padding-bottom: 0px;
-    }
-</style>
-
 <div class="box box-default">
     <div class="box-header with-border">
         <i class="fa fa-users"></i>
@@ -41,51 +35,52 @@ use backend\models\TripPersonnels;
             ],
         ]); ?>
 
-        <div class="container-personnel">
-        <?php foreach ($modelPersonnels as $i => $modelPersonnel): ?>
-            <div class="personnel box box-default">
-                <div class="box-header with-border">
-                    <i class="fa fa-user"></i>
-                    <h3 class="box-title">Personnel</h3>
-                    <div class="pull-right">
-                        <button type="button" class="add-personnel btn btn-success btn-xs"><i class="glyphicon glyphicon-plus"></i></button>
-                        <button type="button" class="remove-personnel btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="box-body">
-                    <?php
-                        // necessary for update action.
-                        if (! $modelPersonnel->isNewRecord) {
-                            echo Html::activeHiddenInput($modelPersonnel, "[{$i}]id");
-                        }
-                    ?>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <?= $form->field($modelPersonnel, "[{$i}]employee_id")->widget(Select2::classname(), [
-                                'data' => ArrayHelper::map(Employees::find()->all(), 'id', 'fullname'),
-                                'language' => 'en',
-                                'options' => ['placeholder' => 'Choose One'],
-                                'pluginOptions' => [
-                                    'allowClear' => true
-                                ],
-                            ]); ?>
-                        </div>
-                        <div class="col-sm-6">
-                            <?= $form->field($modelPersonnel, "[{$i}]role_type")->widget(Select2::classname(), [
-                                'data' => TripPersonnels::get_ActiveRoleType(),
-                                'language' => 'en',
-                                'options' => ['placeholder' => 'Choose One'],
-                                'pluginOptions' => [
-                                    'allowClear' => true
-                                ],
-                            ]); ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-        </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width: 50%;">Employee</th>
+                    <th class="text-center" style="width: 40%;">Role Type</th>
+                    <th class="text-center" style="width: 10%;">
+                        <button type="button" class="add-personnel btn btn-success btn-xs"><span class="fa fa-plus"></span></button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="container-personnel">
+            <?php foreach ($modelPersonnels as $i => $modelPersonnel): ?>
+                <tr class="personnel">
+                    <td class="vcenter">
+                        <?php
+                            // necessary for update action.
+                            if (! $modelPersonnel->isNewRecord) {
+                                echo Html::activeHiddenInput($modelPersonnel, "[{$i}]id");
+                            }
+                        ?>
+                        <?= $form->field($modelPersonnel, "[{$i}]employee_id")->label(false)->widget(Select2::classname(), [
+                            'data' => ArrayHelper::map(Employees::find()->all(), 'id', 'fullname'),
+                            'language' => 'en',
+                            'options' => ['placeholder' => 'Choose One'],
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]); ?>
+                    </td>
+                    <td class="vcenter">
+                        <?= $form->field($modelPersonnel, "[{$i}]role_type")->label(false)->widget(Select2::classname(), [
+                            'data' => TripPersonnels::get_ActiveRoleType(),
+                            'language' => 'en',
+                            'options' => ['placeholder' => 'Choose One'],
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]); ?>
+                    </td>
+                    <td class="text-center vcenter" style="width: 90px; verti">
+                        <button type="button" class="remove-personnel btn btn-danger btn-xs"><span class="fa fa-minus"></span></button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
         <?php DynamicFormWidget::end(); ?>
     </div>
 </div>

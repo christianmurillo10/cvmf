@@ -57,8 +57,8 @@
                         ],
                     ],
                     [
-                        'label' => 'Maintenance',
-                        'icon' => 'wrench',
+                        'label' => 'Parameters',
+                        'icon' => 'gears',
                         'url' => '#',
                         'items' => [
                             [

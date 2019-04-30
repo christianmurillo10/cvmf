@@ -10,7 +10,7 @@ use backend\models\TripExpenses;
 
 <div class="box box-default">
     <div class="box-header with-border">
-        <i class="fa fa-users"></i>
+        <i class="fa fa-list-alt"></i>
         <h3 class="box-title">Expenses</h3>
 
         <div class="box-tools pull-right">

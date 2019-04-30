@@ -22,7 +22,7 @@ use backend\models\TaxPercentageLists;
                 <div class="col-md-10">
                     <div class="panel box box-default">
                         <div class="box-header with-border">
-                            <i class="fa fa-list-ul"></i>
+                            <i class="fa fa-users"></i>
                             <h4 class="box-title">Personnel</h4>
 
                             <div class="box-tools pull-right">
@@ -82,7 +82,7 @@ use backend\models\TaxPercentageLists;
                 <div class="col-md-6">
                     <div class="panel box box-default">
                         <div class="box-header with-border">
-                            <i class="fa fa-list-ul"></i>
+                            <i class="fa fa-pie-chart"></i>
                             <h4 class="box-title">Partition</h4>
 
                             <div class="box-tools pull-right">
@@ -104,9 +104,9 @@ use backend\models\TaxPercentageLists;
                                     <?= $form->field($model, 'maintenance_amount')->textInput(['id' => 'maintenanceAmountID', 'class' => 'form-control text-right', 'oninput' => 'formatNumberWithCommas(this.id, this.value), computeNetProfitAmount();', 'maxlength' => true]) ?>
                                 </div>
                                 <div class="col-md-6">
-                                    <?= $form->field($model, 'gross_amount')->textInput(['id' => 'grossAmountID', 'class' => 'form-control text-right', 'disabled' => true, 'maxlength' => true]) ?>
+                                    <?= $form->field($model, 'gross_amount')->textInput(['id' => 'grossAmountID', 'class' => 'form-control text-right', 'readonly' => true, 'maxlength' => true]) ?>
 
-                                    <?= $form->field($model, 'total_expense_amount')->textInput(['id' => 'totalExpenseAmountID', 'class' => 'form-control text-right', 'disabled' => true, 'maxlength' => true]) ?>
+                                    <?= $form->field($model, 'total_expense_amount')->textInput(['id' => 'totalExpenseAmountID', 'class' => 'form-control text-right', 'readonly' => true, 'maxlength' => true]) ?>
 
                                     <?= $form->field($model, 'vat_amount')->textInput(['id' => 'vatAmountID', 'class' => 'form-control text-right', 'readonly' => true, 'maxlength' => true]) ?>
 
