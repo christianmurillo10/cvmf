@@ -94,6 +94,7 @@ class TripPartitionsController extends Controller
 
         $model->gross_amount = Utilities::setNumberFormat($modelTrips->amount, 2);
         $model->total_expense_amount = Utilities::setNumberFormat($totalExpenses, 2);
+        $model->personnel_commission_type = TripPartitions::PERSONNEL_COMMISSION_TYPE_PERCENTAGE;
 
         if ($model->load(Yii::$app->request->post())) {
             $data = Yii::$app->request->post();

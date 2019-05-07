@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use backend\models\TripPartitions;
 
 
 /* @var $this yii\web\View */
@@ -29,9 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <script>
-    // $(function () {
-    // });
-
     function numberWithCommas(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
@@ -74,16 +72,20 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 
     function computeAllPersonnelProfitAmount() {
+        var percentage = <?= TripPartitions::PERSONNEL_COMMISSION_TYPE_PERCENTAGE ?>;
+        var personnelCommissionType = $('input[name="TripPartitions[personnel_commission_type]"]:checked').val();
         var netAmount =  removeCommas($('#netAmountID').val());
 
-        $(".percentage").each(function(){
-            var fieldID = $(this).attr("id");
-            var id = fieldID.replace("percentageID", "");
-            var percentage = $('#' + fieldID).val();
-            var personnelProfitAmount = parseFloat((netAmount * percentage) / 100).toFixed(2);
+        if (personnelCommissionType == percentage) {
+            $(".percentage").each(function(){
+                var fieldID = $(this).attr("id");
+                var id = fieldID.replace("percentageID", "");
+                var percentage = $('#' + fieldID).val();
+                var personnelProfitAmount = parseFloat((netAmount * percentage) / 100).toFixed(2);
 
-            $('#profitAmountID' + id).val(numberWithCommas(personnelProfitAmount));
-        });
+                $('#profitAmountID' + id).val(numberWithCommas(personnelProfitAmount));
+            });
+        }
     }
 
     function computeTotalPersonnelProfitAmount() {
@@ -110,26 +112,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
         $('#netProfitAmountID').val(numberWithCommas(netProfitAmount));
     }
+
+    function disablePercentageProfit(value) {
+        var percentage = <?= TripPartitions::PERSONNEL_COMMISSION_TYPE_PERCENTAGE ?>;
+
+        if (value == percentage) {
+            $('.percentage').attr('readonly', false);
+            $('.personnel-profit-amount').attr('readonly', true);
+        } else {
+            $('.percentage').attr('readonly', true);
+            $('.personnel-profit-amount').attr('readonly', false);
+        }
+
+        $('.percentage').val(null);
+        $('.personnel-profit-amount').val(formatNumberWithCommas(0));
+        computeNetProfitAmount();
+    }
 </script>
-<?php
-// $script = <<<JS
-//     $('#taxPercentageID').change(function() {
-//         var id = $(this).val();
-//         computeNetAmount(id);
-//     });
-
-//     function computeNetAmount(id) {
-//         alert(id);
-//     }
-
-//     function computeTotalPersonnelProfit() {
-
-//     }
-
-//     function computeNetProfitAmount() {
-
-//     }
-// JS;
-
-// $this->registerJS($script);
-?>

@@ -28,6 +28,11 @@ use Yii;
  */
 class TripPartitions extends \yii\db\ActiveRecord
 {
+    public $personnel_commission_type;
+    
+    const PERSONNEL_COMMISSION_TYPE_PERCENTAGE = 1;
+    const PERSONNEL_COMMISSION_TYPE_PER_TRIP = 2;
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +49,7 @@ class TripPartitions extends \yii\db\ActiveRecord
         return [
             // [['gross_amount', 'vat_amount', 'total_expense_amount', 'net_amount', 'total_personnel_profit_amount', 'net_profit_amount'], 'number'],
             [['user_id', 'trip_id', 'tax_percentage_id', 'created_at'], 'required'],
-            [['user_id', 'trip_id', 'tax_percentage_id', 'is_deleted'], 'integer'],
+            [['user_id', 'trip_id', 'tax_percentage_id', 'is_deleted', 'personnel_commission_type'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['trip_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trips::className(), 'targetAttribute' => ['trip_id' => 'id']],
@@ -72,6 +77,7 @@ class TripPartitions extends \yii\db\ActiveRecord
             'created_at' => 'Date Created',
             'updated_at' => 'Date Modified',
             'is_deleted' => 'Is Deleted',
+            'personnel_commission_type' => 'Commission Type',
         ];
     }
 

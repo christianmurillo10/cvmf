@@ -31,6 +31,10 @@ use backend\models\TaxPercentageLists;
                         </div>
                         <div class="box-body">
                             <div class="row">
+                                <div class="col-md-12">
+                                    <?= $form->field($model, 'personnel_commission_type')->radioList([1 => 'Percentage', 2 => 'Per Trip'], ['itemOptions' => ['id' => 'personnel-commission-type', 'onchange' => 'disablePercentageProfit(this.value);']]); ?>
+                                </div>
+
                                 <?php foreach ($modelPersonnels as $i => $modelPersonnel): ?>
                                     <?php
                                         // necessary for update action.
@@ -71,7 +75,7 @@ use backend\models\TaxPercentageLists;
                                         <?= $form->field($modelPersonnel, "[{$i}]percentage")->textInput(['id' => "percentageID{$i}", 'class' => 'form-control percentage', 'value' => $percentage, 'onkeyup' => "computeNetProfitAmount();"]) ?>
                                     </div>
                                     <div class="col-md-2">
-                                        <?= $form->field($modelPersonnel, "[{$i}]profit_amount")->textInput(['id' => "profitAmountID{$i}", 'class' => 'form-control text-right personnel-profit-amount', 'readonly' => true]) ?>
+                                        <?= $form->field($modelPersonnel, "[{$i}]profit_amount")->textInput(['id' => "profitAmountID{$i}", 'class' => 'form-control text-right personnel-profit-amount', 'oninput' => 'formatNumberWithCommas(this.id, this.value), computeNetProfitAmount();', 'readonly' => true]) ?>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
