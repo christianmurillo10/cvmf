@@ -30,6 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <script>
+    $(function() {
+        disablePercentageProfit();
+    });
+
     function numberWithCommas(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
@@ -113,19 +117,19 @@ $this->params['breadcrumbs'][] = $this->title;
         $('#netProfitAmountID').val(numberWithCommas(netProfitAmount));
     }
 
-    function disablePercentageProfit(value) {
+    function disablePercentageProfit() {
         var percentage = <?= TripPartitions::PERSONNEL_COMMISSION_TYPE_PERCENTAGE ?>;
+        var personnelCommissionType = $('input[name="TripPartitions[personnel_commission_type]"]:checked').val();
 
-        if (value == percentage) {
+        if (personnelCommissionType == percentage) {
             $('.percentage').attr('readonly', false);
             $('.personnel-profit-amount').attr('readonly', true);
         } else {
             $('.percentage').attr('readonly', true);
             $('.personnel-profit-amount').attr('readonly', false);
+            $('.percentage').val(null);
         }
 
-        $('.percentage').val(null);
-        $('.personnel-profit-amount').val(formatNumberWithCommas(0));
         computeNetProfitAmount();
     }
 </script>

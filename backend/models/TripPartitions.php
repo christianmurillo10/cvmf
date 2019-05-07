@@ -21,6 +21,7 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  * @property int $is_deleted
+ * @property int $personnel_commission_type 1=Percentage 2=Per Trip
  *
  * @property User $user
  * @property Trips $trip
@@ -28,8 +29,6 @@ use Yii;
  */
 class TripPartitions extends \yii\db\ActiveRecord
 {
-    public $personnel_commission_type;
-    
     const PERSONNEL_COMMISSION_TYPE_PERCENTAGE = 1;
     const PERSONNEL_COMMISSION_TYPE_PER_TRIP = 2;
 

@@ -32,7 +32,7 @@ use backend\models\TaxPercentageLists;
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <?= $form->field($model, 'personnel_commission_type')->radioList([1 => 'Percentage', 2 => 'Per Trip'], ['itemOptions' => ['id' => 'personnel-commission-type', 'onchange' => 'disablePercentageProfit(this.value);']]); ?>
+                                    <?= $form->field($model, 'personnel_commission_type')->radioList([1 => 'Percentage', 2 => 'Per Trip'], ['itemOptions' => ['id' => 'personnel-commission-type', 'onchange' => 'disablePercentageProfit();']]); ?>
                                 </div>
 
                                 <?php foreach ($modelPersonnels as $i => $modelPersonnel): ?>
@@ -62,20 +62,11 @@ use backend\models\TaxPercentageLists;
                                             ],
                                         ]); ?>
                                     </div>
-                                    <?php 
-                                        $roleType = $modelPersonnel->role_type;
-
-                                        if ($roleType == 2) {
-                                            $percentage = 8;
-                                        } else {
-                                            $percentage = 15;
-                                        }
-                                     ?>
                                     <div class="col-md-2">
-                                        <?= $form->field($modelPersonnel, "[{$i}]percentage")->textInput(['id' => "percentageID{$i}", 'class' => 'form-control percentage', 'value' => $percentage, 'onkeyup' => "computeNetProfitAmount();"]) ?>
+                                        <?= $form->field($modelPersonnel, "[{$i}]percentage")->textInput(['id' => "percentageID{$i}", 'class' => 'form-control percentage', 'onkeyup' => "computeNetProfitAmount();"]) ?>
                                     </div>
                                     <div class="col-md-2">
-                                        <?= $form->field($modelPersonnel, "[{$i}]profit_amount")->textInput(['id' => "profitAmountID{$i}", 'class' => 'form-control text-right personnel-profit-amount', 'oninput' => 'formatNumberWithCommas(this.id, this.value), computeNetProfitAmount();', 'readonly' => true]) ?>
+                                        <?= $form->field($modelPersonnel, "[{$i}]profit_amount")->textInput(['id' => "profitAmountID{$i}", 'class' => 'form-control text-right personnel-profit-amount', 'oninput' => 'formatNumberWithCommas(this.id, this.value), computeNetProfitAmount();']) ?>
                                     </div>
                                 <?php endforeach; ?>
                             </div>

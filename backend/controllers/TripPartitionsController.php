@@ -80,6 +80,7 @@ class TripPartitionsController extends Controller
             $model->net_profit_amount = Utilities::setNumberFormat($model->net_profit_amount, 2);
         } else {
             $model = new TripPartitions();
+            $model->personnel_commission_type = TripPartitions::PERSONNEL_COMMISSION_TYPE_PERCENTAGE;
         }
 
         $modelTrips = Trips::findOne($tripId);
@@ -94,7 +95,6 @@ class TripPartitionsController extends Controller
 
         $model->gross_amount = Utilities::setNumberFormat($modelTrips->amount, 2);
         $model->total_expense_amount = Utilities::setNumberFormat($totalExpenses, 2);
-        $model->personnel_commission_type = TripPartitions::PERSONNEL_COMMISSION_TYPE_PERCENTAGE;
 
         if ($model->load(Yii::$app->request->post())) {
             $data = Yii::$app->request->post();
@@ -131,7 +131,7 @@ class TripPartitionsController extends Controller
                         // personnels
                         foreach ($modelPersonnels as $modelPersonnel) {
                             $modelPersonnel->updated_at = Utilities::get_DateTime();
-                            $modelPersonnel->percentage = Utilities::setAdvanceNumberFormat($data['TripPersonnels'][$i]['percentage']);
+                            $modelPersonnel->percentage = $data['TripPersonnels'][$i]['percentage'];
                             $modelPersonnel->profit_amount = Utilities::setAdvanceNumberFormat($data['TripPersonnels'][$i]['profit_amount']);
 
                             $i++;
