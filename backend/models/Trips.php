@@ -18,7 +18,7 @@ use common\models\utilities\Utilities;
  * @property int $vehicle_id refd to vehicles.id
  * @property int $destination_from_id refd to destinations.id
  * @property int $destination_to_id refd to destinations.id
- * @property int $status 1=New 2=On Process 3=Done 4=Delayed 5=Failed
+ * @property int $status 1=New 2=Done 3=Cancelled 4=Failed 5=Demurrage 6=Foul Trip
  * @property string $date_issued
  * @property string $date_delivered
  * @property string $created_at
@@ -38,10 +38,11 @@ use common\models\utilities\Utilities;
 class Trips extends \yii\db\ActiveRecord
 {
     const TRIP_STATUS_NEW = 1;
-    const TRIP_STATUS_ON_PROGRESS = 2;
-    const TRIP_STATUS_DONE = 3;
-    const TRIP_STATUS_DELAYED = 4;
-    const TRIP_STATUS_FAILED = 5;
+    const TRIP_STATUS_DONE = 2;
+    const TRIP_STATUS_CANCELLED = 3;
+    const TRIP_STATUS_FAILED = 4;
+    const TRIP_STATUS_DEMURRAGE = 5;
+    const TRIP_STATUS_FOUL_TRIP = 6;
 
     /**
      * {@inheritdoc}
@@ -165,10 +166,11 @@ class Trips extends \yii\db\ActiveRecord
     {
         $active = [
             self::TRIP_STATUS_NEW => 'New',
-            self::TRIP_STATUS_ON_PROGRESS => 'On Progress',
             self::TRIP_STATUS_DONE => 'Done',
-            self::TRIP_STATUS_DELAYED => 'Delayed',
+            self::TRIP_STATUS_CANCELLED => 'Cancelled',
             self::TRIP_STATUS_FAILED => 'Failed',
+            self::TRIP_STATUS_DEMURRAGE => 'Demurrage',
+            self::TRIP_STATUS_FOUL_TRIP => 'Foul Trip',
         ];
         if (is_null($id))
             return $active;
@@ -192,15 +194,17 @@ class Trips extends \yii\db\ActiveRecord
         $status = self::get_ActiveStatus($this->status);
 
         if ($status_id == self::TRIP_STATUS_NEW) {
-            return '<span class="label label-primary">'.$status.'</span>';
-        } else if ($status_id == self::TRIP_STATUS_ON_PROGRESS) {
             return '<span class="label label-info">'.$status.'</span>';
         } else if ($status_id == self::TRIP_STATUS_DONE) {
             return '<span class="label label-success">'.$status.'</span>';
-        } else if ($status_id == self::TRIP_STATUS_DELAYED) {
+        } else if ($status_id == self::TRIP_STATUS_CANCELLED) {
             return '<span class="label label-warning">'.$status.'</span>';
         } else if ($status_id == self::TRIP_STATUS_FAILED) {
             return '<span class="label label-danger">'.$status.'</span>';
+        } else if ($status_id == self::TRIP_STATUS_DEMURRAGE) {
+            return '<span class="label label-default">'.$status.'</span>';
+        } else if ($status_id == self::TRIP_STATUS_FOUL_TRIP) {
+            return '<span class="label label-primary">'.$status.'</span>';
         }
     }
 }
