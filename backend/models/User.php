@@ -17,11 +17,22 @@ use Yii;
  * @property int $created_at
  * @property int $updated_at
  *
+ * @property ClientDirectCompanies[] $clientDirectCompanies
  * @property Clients[] $clients
+ * @property EmployeeBenefits[] $employeeBenefits
+ * @property EmployeeContacts[] $employeeContacts
+ * @property EmployeeContracts[] $employeeContracts
+ * @property EmployeeEducationalBackgrounds[] $employeeEducationalBackgrounds
+ * @property EmployeeGovernmentDetails[] $employeeGovernmentDetails
+ * @property EmployeeImages[] $employeeImages
+ * @property EmployeeReferences[] $employeeReferences
+ * @property EmployeeRelatives[] $employeeRelatives
+ * @property EmployeeSalaries[] $employeeSalaries
  * @property Employees[] $employees
+ * @property TripDemurrages[] $tripDemurrages
  * @property TripExpenses[] $tripExpenses
+ * @property TripFoulTrips[] $tripFoulTrips
  * @property TripPartitions[] $tripPartitions
- * @property TripPersonnels[] $tripPersonnels
  * @property Trips[] $trips
  */
 class User extends \yii\db\ActiveRecord
@@ -71,9 +82,89 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getClientDirectCompanies()
+    {
+        return $this->hasMany(ClientDirectCompanies::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getClients()
     {
         return $this->hasMany(Clients::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployeeBenefits()
+    {
+        return $this->hasMany(EmployeeBenefits::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployeeContacts()
+    {
+        return $this->hasMany(EmployeeContacts::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployeeContracts()
+    {
+        return $this->hasMany(EmployeeContracts::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployeeEducationalBackgrounds()
+    {
+        return $this->hasMany(EmployeeEducationalBackgrounds::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployeeGovernmentDetails()
+    {
+        return $this->hasMany(EmployeeGovernmentDetails::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployeeImages()
+    {
+        return $this->hasMany(EmployeeImages::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployeeReferences()
+    {
+        return $this->hasMany(EmployeeReferences::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployeeRelatives()
+    {
+        return $this->hasMany(EmployeeRelatives::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployeeSalaries()
+    {
+        return $this->hasMany(EmployeeSalaries::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -87,6 +178,14 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getTripDemurrages()
+    {
+        return $this->hasMany(TripDemurrages::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTripExpenses()
     {
         return $this->hasMany(TripExpenses::className(), ['user_id' => 'id']);
@@ -95,17 +194,17 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTripPartitions()
+    public function getTripFoulTrips()
     {
-        return $this->hasMany(TripPartitions::className(), ['user_id' => 'id']);
+        return $this->hasMany(TripFoulTrips::className(), ['user_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTripPersonnels()
+    public function getTripPartitions()
     {
-        return $this->hasMany(TripPersonnels::className(), ['user_id' => 'id']);
+        return $this->hasMany(TripPartitions::className(), ['user_id' => 'id']);
     }
 
     /**

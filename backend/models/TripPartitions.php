@@ -20,8 +20,8 @@ use Yii;
  * @property int $tax_percentage_id refd to tax_percentage_lists.id
  * @property string $created_at
  * @property string $updated_at
- * @property int $is_deleted
  * @property int $personnel_commission_type 1=Percentage 2=Per Trip
+ * @property int $is_deleted
  *
  * @property User $user
  * @property Trips $trip
@@ -46,9 +46,9 @@ class TripPartitions extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            // [['gross_amount', 'vat_amount', 'total_expense_amount', 'net_amount', 'total_personnel_profit_amount', 'net_profit_amount'], 'number'],
+            // [['gross_amount', 'vat_amount', 'maintenance_amount', 'total_expense_amount', 'net_amount', 'total_personnel_profit_amount', 'net_profit_amount'], 'number'],
             [['user_id', 'trip_id', 'tax_percentage_id', 'created_at'], 'required'],
-            [['user_id', 'trip_id', 'tax_percentage_id', 'is_deleted', 'personnel_commission_type'], 'integer'],
+            [['user_id', 'trip_id', 'tax_percentage_id', 'personnel_commission_type', 'is_deleted'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['trip_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trips::className(), 'targetAttribute' => ['trip_id' => 'id']],
@@ -70,13 +70,13 @@ class TripPartitions extends \yii\db\ActiveRecord
             'net_amount' => 'Net Amount',
             'total_personnel_profit_amount' => 'Total Personnel Profit Amount',
             'net_profit_amount' => 'Net Profit Amount',
-            'user_id' => 'User',
-            'trip_id' => 'Trip',
-            'tax_percentage_id' => 'Tax Percentage',
+            'user_id' => 'User ID',
+            'trip_id' => 'Trip ID',
+            'tax_percentage_id' => 'Tax Percentage ID',
             'created_at' => 'Date Created',
             'updated_at' => 'Date Modified',
+            'personnel_commission_type' => 'Personnel Commission Type',
             'is_deleted' => 'Is Deleted',
-            'personnel_commission_type' => 'Commission Type',
         ];
     }
 
