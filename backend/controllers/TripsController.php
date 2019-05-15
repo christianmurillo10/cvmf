@@ -327,6 +327,34 @@ class TripsController extends Controller
         return $pdf->render();
     }
 
+    public function actionUpdateStatus($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->updated_at = Utilities::get_DateTime();
+            
+            if ($model->validate()) {
+                $model->save();
+
+                Yii::$app->getSession()->setFlash('success', 'Status successfully updated');
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                $errors = [];
+
+                foreach($model->errors as $error) {
+                    array_push($errors, $error[0]);
+                }
+
+                Yii::$app->getSession()->setFlash('error', $errors);
+            }
+        }
+
+        return $this->render('updateStatus', [
+            'model' => $model
+        ]);
+    }
+
     /**
      * Finds the Trips model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -77,10 +77,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'header' => 'Partition',
-                    'template' => '{partition}',
+                    'template' => '{partition} {updateStatus}',
                     'buttons' => [
                         'partition' => function ($url, $model, $key) {
-                            return Html::a ('<span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> ', ['trip-partitions/create', 'tripId' => $model->id]);
+                            return Html::a ('<span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> ', ['trip-partitions/create', 'tripId' => $model->id], ['title' => 'Partitions']);
+                        },
+                        'updateStatus' => function ($url, $model, $key) {
+                            return Html::a ('<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> ', ['trips/update-status', 'id' => $model->id], ['title' => 'Update Status']);
                         },
                     ],
                     'headerOptions' => ['class' => 'text-center'],
