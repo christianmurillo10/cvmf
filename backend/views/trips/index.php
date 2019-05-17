@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'header' => 'Partition',
+                    'header' => 'Others',
                     'template' => '{partition} {updateStatus}',
                     'buttons' => [
                         'partition' => function ($url, $model, $key) {

@@ -145,7 +145,7 @@ if ($model->client_id) {
                             <?= $form->field($model, 'status')->widget(Select2::classname(), [
                                 'data' => Trips::get_ActiveStatus(),
                                 'language' => 'en',
-                                'options' => ['onchange' => 'hideDisplayByStatus(this.value);', 'placeholder' => 'Choose One'],
+                                'options' => ['onchange' => 'disableEnableByStatus(this.value);', 'placeholder' => 'Choose One'],
                                 'pluginOptions' => [
                                     'allowClear' => true
                                 ],
@@ -181,7 +181,7 @@ if ($model->client_id) {
 <?php ActiveForm::end(); ?>
 
 <script>
-    function hideDisplayByStatus(value) {
+    function disableEnableByStatus(value) {
         var done = <?= Trips::TRIP_STATUS_DONE ?>;
 
         if (value == done) {

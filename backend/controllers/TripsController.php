@@ -9,6 +9,8 @@ use backend\models\TripsSearch;
 use backend\models\TripPersonnels;
 use backend\models\TripExpenses;
 use backend\models\TripPartitions;
+use backend\models\TripDemurrages;
+use backend\models\TripFoulTrips;
 use backend\models\Model;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -330,6 +332,14 @@ class TripsController extends Controller
     public function actionUpdateStatus($id)
     {
         $model = $this->findModel($id);
+        $modelDemurrages = new TripDemurrages();
+        $modelFoulTrips = new TripDemurrages();
+
+        // $modelDemurrages = TripDemurrages::find()->where(['trip_id' => $model->id, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
+        // $modelFoulTrips = TripFoulTrips::find()->where(['trip_id' => $model->id, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
+
+        $modelDemurrages->trip_amount = Utilities::setNumberFormat($model->amount, 2);
+        $modelFoulTrips->trip_amount = Utilities::setNumberFormat($model->amount, 2);
 
         if ($model->load(Yii::$app->request->post())) {
             $model->updated_at = Utilities::get_DateTime();
@@ -351,7 +361,9 @@ class TripsController extends Controller
         }
 
         return $this->render('updateStatus', [
-            'model' => $model
+            'model' => $model,
+            'modelDemurrages' => $modelDemurrages,
+            'modelFoulTrips' => $modelFoulTrips
         ]);
     }
 
