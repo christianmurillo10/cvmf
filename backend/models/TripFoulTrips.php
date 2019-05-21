@@ -41,7 +41,7 @@ class TripFoulTrips extends \yii\db\ActiveRecord
     {
         return [
             [['percentage', 'user_id', 'trip_id', 'header_id', 'date', 'created_at'], 'required'],
-            [['percentage', 'trip_amount', 'gross_amount'], 'number'],
+            // [['percentage', 'trip_amount', 'gross_amount'], 'number'],
             [['remarks'], 'string'],
             [['user_id', 'trip_id', 'header_id', 'is_deleted'], 'integer'],
             [['date', 'created_at', 'updated_at'], 'safe'],

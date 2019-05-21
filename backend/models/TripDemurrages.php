@@ -42,8 +42,8 @@ class TripDemurrages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['percentage', 'days', 'user_id', 'trip_id', 'header_id', 'date_from', 'date_to', 'created_at'], 'required'],
-            [['percentage', 'days', 'trip_amount', 'gross_amount'], 'number'],
+            [['user_id', 'trip_id', 'header_id', 'created_at'], 'required'],
+            // [['percentage', 'days', 'trip_amount', 'gross_amount'], 'number'],
             [['remarks'], 'string'],
             [['user_id', 'trip_id', 'header_id', 'is_deleted'], 'integer'],
             [['date_from', 'date_to', 'created_at', 'updated_at'], 'safe'],

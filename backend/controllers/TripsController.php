@@ -343,20 +343,38 @@ class TripsController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->updated_at = Utilities::get_DateTime();
-            
-            if ($model->validate()) {
-                $model->save();
 
-                Yii::$app->getSession()->setFlash('success', 'Status successfully updated');
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                $errors = [];
+            // validate all models
+            $valid = $model->validate();
 
-                foreach($model->errors as $error) {
-                    array_push($errors, $error[0]);
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $model->save(false)) {
+                        Utilities::debug($model, "Test");exit();
+                        if ($model->status == Trips::TRIP_STATUS_DEMURRAGE) {
+                            $modelDemurrages->created_at = Utilities::get_DateTime();
+                            $modelDemurrages->trip_id = $model->id;
+                            $modelDemurrages->header_id = $model->id;
+                            $modelDemurrages->user_id = Utilities::get_UserID();
+    
+                            if (!($flag = $modelDemurrages->save(false))) {
+                                $transaction->rollBack();
+                            }
+                        }
+                    }
+
+                    if ($flag) {
+                        $transaction->commit();
+
+                        Yii::$app->getSession()->setFlash('success', 'Status successfully updated');
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    } else {
+                        $transaction->rollBack();
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
                 }
-
-                Yii::$app->getSession()->setFlash('error', $errors);
             }
         }
 

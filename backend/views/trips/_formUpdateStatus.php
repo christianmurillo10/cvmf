@@ -55,17 +55,51 @@ if ($model->status == Trips::TRIP_STATUS_DONE) {
         </div>
         <div id="divDemurrageID" class="col-md-12" style="display: <?= $displayDemurrageForm ?>">
             <div class="row">
-                <div class="col-md-6">
-                    <?= $form->field($modelDemurrages, 'percentage')->textInput(['id' => 'percentageDemurrageID', 'oninput' => 'computeDemurrageGrossAmount()']) ?>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($modelDemurrages, 'date_from')->widget(
+                                DatePicker::className(), [
+                                    'inline' => false, 
+                                    'clientOptions' => [
+                                        'autoclose' => true,
+                                        'todayHighlight' => true,
+                                        'format' => 'yyyy-mm-dd'
+                                    ]
+                            ]);?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($modelDemurrages, 'date_to')->widget(
+                                DatePicker::className(), [
+                                    'inline' => false, 
+                                    'clientOptions' => [
+                                        'autoclose' => true,
+                                        'todayHighlight' => true,
+                                        'format' => 'yyyy-mm-dd'
+                                    ]
+                            ]);?>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <?= $form->field($modelDemurrages, 'days')->textInput(['id' => 'daysDemurrageID', 'oninput' => 'computeDemurrageGrossAmount()']) ?>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($modelDemurrages, 'percentage')->textInput(['id' => 'percentageDemurrageID', 'oninput' => 'computeDemurrageGrossAmount()']) ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($modelDemurrages, 'days')->textInput(['id' => 'daysDemurrageID', 'oninput' => 'computeDemurrageGrossAmount()']) ?>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <?= $form->field($modelDemurrages, 'trip_amount')->textInput(['id' => 'tripAmountDemurrageID', 'class' => 'form-control text-right', 'oninput' => 'computeDemurrageGrossAmount()', 'readonly' => true]) ?>
-                </div>
-                <div class="col-md-6">
-                    <?= $form->field($modelDemurrages, 'gross_amount')->textInput(['id' => 'grossAmountDemurrageID', 'class' => 'form-control text-right', 'placeholder' => '0.00', 'readonly' => true]) ?>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($modelDemurrages, 'trip_amount')->textInput(['id' => 'tripAmountDemurrageID', 'class' => 'form-control text-right', 'oninput' => 'computeDemurrageGrossAmount()', 'readonly' => true]) ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($modelDemurrages, 'gross_amount')->textInput(['id' => 'grossAmountDemurrageID', 'class' => 'form-control text-right', 'placeholder' => '0.00', 'readonly' => true]) ?>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <?= $form->field($modelDemurrages, 'remarks')->textarea(['rows' => 5]) ?>
@@ -74,11 +108,29 @@ if ($model->status == Trips::TRIP_STATUS_DONE) {
         </div>
         <div id="divFoulTripID" class="col-md-12" style="display: <?= $displayFoulTripForm ?>">
             <div class="row">
-                <div class="col-md-6">
-                    <?= $form->field($modelFoulTrips, 'percentage')->textInput(['id' => 'percentageFoulTripID', 'oninput' => 'computeFoulTripGrossAmount()']) ?>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($modelFoulTrips, 'date')->widget(
+                                DatePicker::className(), [
+                                    'inline' => false, 
+                                    'clientOptions' => [
+                                        'autoclose' => true,
+                                        'todayHighlight' => true,
+                                        'format' => 'yyyy-mm-dd'
+                                    ]
+                            ]);?>
+                        </div>
                 </div>
-                <div class="col-md-6">
-                    <?= $form->field($modelFoulTrips, 'trip_amount')->textInput(['id' => 'tripAmountFoulTripID', 'class' => 'form-control text-right', 'oninput' => 'computeFoulTripGrossAmount()', 'readonly' => true]) ?>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($modelFoulTrips, 'percentage')->textInput(['id' => 'percentageFoulTripID', 'oninput' => 'computeFoulTripGrossAmount()']) ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($modelFoulTrips, 'trip_amount')->textInput(['id' => 'tripAmountFoulTripID', 'class' => 'form-control text-right', 'oninput' => 'computeFoulTripGrossAmount()', 'readonly' => true]) ?>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6 col-md-offset-6">
                     <?= $form->field($modelFoulTrips, 'gross_amount')->textInput(['id' => 'grossAmountFoulTripID', 'class' => 'form-control text-right', 'placeholder' => '0.00', 'readonly' => true]) ?>
