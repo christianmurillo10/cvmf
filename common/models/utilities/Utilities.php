@@ -18,6 +18,9 @@ class Utilities extends \yii\base\Model
     const STATUS_INACTIVE = 0;
     const USER_STATUS_ACTIVE = 10;
     const USER_STATUS_INACTIVE = 0;
+    const PAYMENT_TYPE_CASH = 1;
+    const PAYMENT_TYPE_CHEQUE = 2;
+    const PAYMENT_TYPE_PDC = 3;
 
     public static function get_ActiveSelect($id = null)
     {
@@ -73,6 +76,19 @@ class Utilities extends \yii\base\Model
             self::CIVIL_STATUS_MARRIED => 'Married',
             self::CIVIL_STATUS_DIVORCED => 'Divorced',
             self::CIVIL_STATUS_WIDOWED => 'Widowed',
+        ];
+        if (is_null($id))
+            return $active;
+        else
+            return $active[$id];
+    }
+
+    public static function get_ActivePaymentType($id = null)
+    {
+        $active = [
+            self::PAYMENT_TYPE_CASH => 'Cash',
+            self::PAYMENT_TYPE_CHEQUE => 'Cheque',
+            self::PAYMENT_TYPE_PDC => 'Post Dated Cheque (PDC)',
         ];
         if (is_null($id))
             return $active;
