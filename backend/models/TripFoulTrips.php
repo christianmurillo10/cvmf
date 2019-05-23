@@ -40,7 +40,7 @@ class TripFoulTrips extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['percentage', 'user_id', 'trip_id', 'header_id', 'date', 'created_at'], 'required'],
+            [['user_id', 'trip_id', 'header_id', 'created_at'], 'required'],
             // [['percentage', 'trip_amount', 'gross_amount'], 'number'],
             [['remarks'], 'string'],
             [['user_id', 'trip_id', 'header_id', 'is_deleted'], 'integer'],

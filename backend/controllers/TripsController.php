@@ -332,16 +332,23 @@ class TripsController extends Controller
     public function actionUpdateStatus($id)
     {
         $model = $this->findModel($id);
-        $modelDemurrages = new TripDemurrages();
-        $modelFoulTrips = new TripDemurrages();
+        $modelDemurrages = TripDemurrages::find()->where(['trip_id' => $model->id, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
+        $modelFoulTrips = TripFoulTrips::find()->where(['trip_id' => $model->id, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
+        
+        // validate model demurrages and foulTrips
+        if ($modelDemurrages == null || $modelDemurrages == '') {
+            $modelDemurrages = new TripDemurrages();
+        }
 
-        // $modelDemurrages = TripDemurrages::find()->where(['trip_id' => $model->id, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
-        // $modelFoulTrips = TripFoulTrips::find()->where(['trip_id' => $model->id, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
+        if ($modelFoulTrips == null || $modelFoulTrips == '') {
+            $modelFoulTrips = new TripFoulTrips();
+        }
 
         $modelDemurrages->trip_amount = Utilities::setNumberFormat($model->amount, 2);
         $modelFoulTrips->trip_amount = Utilities::setNumberFormat($model->amount, 2);
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $modelDemurrages->load(Yii::$app->request->post()) && $modelFoulTrips->load(Yii::$app->request->post())) {
+            $data = Yii::$app->request->post();
             $model->updated_at = Utilities::get_DateTime();
 
             // validate all models
@@ -351,14 +358,29 @@ class TripsController extends Controller
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     if ($flag = $model->save(false)) {
-                        Utilities::debug($model, "Test");exit();
                         if ($model->status == Trips::TRIP_STATUS_DEMURRAGE) {
                             $modelDemurrages->created_at = Utilities::get_DateTime();
                             $modelDemurrages->trip_id = $model->id;
                             $modelDemurrages->header_id = $model->id;
                             $modelDemurrages->user_id = Utilities::get_UserID();
+                            $modelDemurrages->percentage = $data['TripDemurrages']['percentage'];
+                            $modelDemurrages->days = $data['TripDemurrages']['days'];
+                            $modelDemurrages->trip_amount = Utilities::setAdvanceNumberFormat($data['TripDemurrages']['trip_amount']);
+                            $modelDemurrages->gross_amount = Utilities::setAdvanceNumberFormat($data['TripDemurrages']['gross_amount']);
     
                             if (!($flag = $modelDemurrages->save(false))) {
+                                $transaction->rollBack();
+                            }
+                        } else if ($model->status == Trips::TRIP_STATUS_FOUL_TRIP) {
+                            $modelFoulTrips->created_at = Utilities::get_DateTime();
+                            $modelFoulTrips->trip_id = $model->id;
+                            $modelFoulTrips->header_id = $model->id;
+                            $modelFoulTrips->user_id = Utilities::get_UserID();
+                            $modelFoulTrips->percentage = $data['TripFoulTrips']['percentage'];
+                            $modelFoulTrips->trip_amount = Utilities::setAdvanceNumberFormat($data['TripFoulTrips']['trip_amount']);
+                            $modelFoulTrips->gross_amount = Utilities::setAdvanceNumberFormat($data['TripFoulTrips']['gross_amount']);
+    
+                            if (!($flag = $modelFoulTrips->save(false))) {
                                 $transaction->rollBack();
                             }
                         }
