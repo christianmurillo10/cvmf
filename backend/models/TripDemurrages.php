@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "trip_demurrages".
  *
  * @property int $id
+ * @property string $trip_no
  * @property double $percentage
  * @property double $days
  * @property string $trip_amount
@@ -47,6 +48,7 @@ class TripDemurrages extends \yii\db\ActiveRecord
             [['remarks'], 'string'],
             [['user_id', 'trip_id', 'header_id', 'is_deleted'], 'integer'],
             [['date_from', 'date_to', 'created_at', 'updated_at'], 'safe'],
+            [['trip_no'], 'string', 'max' => 50],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['trip_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trips::className(), 'targetAttribute' => ['trip_id' => 'id']],
             [['header_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trips::className(), 'targetAttribute' => ['header_id' => 'id']],
@@ -60,6 +62,7 @@ class TripDemurrages extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'trip_no' => 'Trip No',
             'percentage' => 'Percentage',
             'days' => 'Days',
             'trip_amount' => 'Trip Amount',
