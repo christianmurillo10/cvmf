@@ -338,10 +338,12 @@ class TripsController extends Controller
         // validate model demurrages and foulTrips
         if ($modelDemurrages == null || $modelDemurrages == '') {
             $modelDemurrages = new TripDemurrages();
+            $modelDemurrages->created_at = Utilities::get_DateTime();
         }
 
         if ($modelFoulTrips == null || $modelFoulTrips == '') {
             $modelFoulTrips = new TripFoulTrips();
+            $modelFoulTrips->created_at = Utilities::get_DateTime();
         }
 
         $modelDemurrages->trip_amount = Utilities::setNumberFormat($model->amount, 2);
@@ -359,7 +361,7 @@ class TripsController extends Controller
                 try {
                     if ($flag = $model->save(false)) {
                         if ($model->status == Trips::TRIP_STATUS_DEMURRAGE) {
-                            $modelDemurrages->created_at = Utilities::get_DateTime();
+                            $modelDemurrages->updated_at = Utilities::get_DateTime();
                             $modelDemurrages->trip_id = $model->id;
                             $modelDemurrages->user_id = Utilities::get_UserID();
                             $modelDemurrages->trip_no = $model->trip_no . 'D';
@@ -372,7 +374,7 @@ class TripsController extends Controller
                                 $transaction->rollBack();
                             }
                         } else if ($model->status == Trips::TRIP_STATUS_FOUL_TRIP) {
-                            $modelFoulTrips->created_at = Utilities::get_DateTime();
+                            $modelFoulTrips->updated_at = Utilities::get_DateTime();
                             $modelFoulTrips->trip_id = $model->id;
                             $modelFoulTrips->user_id = Utilities::get_UserID();
                             $modelFoulTrips->trip_no = $model->trip_no . 'FT';

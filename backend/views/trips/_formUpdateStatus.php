@@ -15,7 +15,7 @@ if ($model->status == Trips::TRIP_STATUS_DONE) {
     $displayDemurrageForm = 'none';
     $displayFoulTripForm = 'none';
 } else if ($model->status == Trips::TRIP_STATUS_DEMURRAGE) {
-    $displayDoneForm = 'none';
+    $displayDoneForm = '';
     $displayDemurrageForm = '';
     $displayFoulTripForm = 'none';
 } else if ($model->status == Trips::TRIP_STATUS_FOUL_TRIP) {
@@ -177,7 +177,7 @@ if ($model->status == Trips::TRIP_STATUS_DONE) {
             $('#divDemurrageID').hide();
             $('#divFoulTripID').hide();
         } else if (value == demurrage) {
-            $('#divDoneID').hide();
+            $('#divDoneID').show();
             $('#divDemurrageID').show();
             $('#divFoulTripID').hide();
         } else if (value == foulTrip) {
