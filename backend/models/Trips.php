@@ -26,12 +26,11 @@ use common\models\utilities\Utilities;
  * @property int $is_deleted
  *
  * @property TripDemurrages[] $tripDemurrages
- * @property TripDemurrages[] $tripDemurrages0
  * @property TripExpenses[] $tripExpenses
  * @property TripFoulTrips[] $tripFoulTrips
- * @property TripFoulTrips[] $tripFoulTrips0
  * @property TripPartitions[] $tripPartitions
  * @property TripPersonnels[] $tripPersonnels
+ * @property TripTransactions[] $tripTransactions
  * @property User $user
  * @property Clients $client
  * @property Vehicles $vehicle
@@ -113,14 +112,6 @@ class Trips extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTripDemurrages0()
-    {
-        return $this->hasMany(TripDemurrages::className(), ['header_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getTripExpenses()
     {
         return $this->hasMany(TripExpenses::className(), ['trip_id' => 'id']);
@@ -137,14 +128,6 @@ class Trips extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTripFoulTrips0()
-    {
-        return $this->hasMany(TripFoulTrips::className(), ['header_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getTripPartitions()
     {
         return $this->hasMany(TripPartitions::className(), ['trip_id' => 'id']);
@@ -156,6 +139,14 @@ class Trips extends \yii\db\ActiveRecord
     public function getTripPersonnels()
     {
         return $this->hasMany(TripPersonnels::className(), ['trip_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripTransactions()
+    {
+        return $this->hasMany(TripTransactions::className(), ['trip_id' => 'id']);
     }
 
     /**

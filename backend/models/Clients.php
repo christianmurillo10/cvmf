@@ -23,6 +23,7 @@ use common\models\utilities\Utilities;
  * @property ClientDirectCompanies[] $clientDirectCompanies
  * @property User $user
  * @property PaymentTerms $paymentTerm
+ * @property TripTransactions[] $tripTransactions
  * @property Trips[] $trips
  */
 class Clients extends \yii\db\ActiveRecord
@@ -96,6 +97,14 @@ class Clients extends \yii\db\ActiveRecord
     public function getPaymentTerm()
     {
         return $this->hasOne(PaymentTerms::className(), ['id' => 'payment_term_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripTransactions()
+    {
+        return $this->hasMany(TripTransactions::className(), ['client_id' => 'id']);
     }
 
     /**

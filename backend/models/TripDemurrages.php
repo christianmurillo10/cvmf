@@ -16,7 +16,6 @@ use Yii;
  * @property string $remarks
  * @property int $user_id refd to user.id
  * @property int $trip_id refd to trips.id
- * @property int $header_id refd to trips.id (New generated trip)
  * @property string $date_from
  * @property string $date_to
  * @property string $created_at
@@ -25,7 +24,7 @@ use Yii;
  *
  * @property User $user
  * @property Trips $trip
- * @property Trips $header
+ * @property TripTransactions[] $tripTransactions
  */
 class TripDemurrages extends \yii\db\ActiveRecord
 {
@@ -43,15 +42,14 @@ class TripDemurrages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'trip_id', 'header_id', 'created_at'], 'required'],
+            [['user_id', 'trip_id', 'created_at'], 'required'],
             // [['percentage', 'days', 'trip_amount', 'gross_amount'], 'number'],
             [['remarks'], 'string'],
-            [['user_id', 'trip_id', 'header_id', 'is_deleted'], 'integer'],
+            [['user_id', 'trip_id', 'is_deleted'], 'integer'],
             [['date_from', 'date_to', 'created_at', 'updated_at'], 'safe'],
             [['trip_no'], 'string', 'max' => 50],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['trip_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trips::className(), 'targetAttribute' => ['trip_id' => 'id']],
-            [['header_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trips::className(), 'targetAttribute' => ['header_id' => 'id']],
         ];
     }
 
@@ -70,7 +68,6 @@ class TripDemurrages extends \yii\db\ActiveRecord
             'remarks' => 'Remarks',
             'user_id' => 'User',
             'trip_id' => 'Trip',
-            'header_id' => 'Header',
             'date_from' => 'Date From',
             'date_to' => 'Date To',
             'created_at' => 'Date Created',
@@ -98,8 +95,8 @@ class TripDemurrages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getHeader()
+    public function getTripTransactions()
     {
-        return $this->hasOne(Trips::className(), ['id' => 'header_id']);
+        return $this->hasMany(TripTransactions::className(), ['trip_demurrage_id' => 'id']);
     }
 }

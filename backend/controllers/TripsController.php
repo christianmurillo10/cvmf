@@ -361,7 +361,6 @@ class TripsController extends Controller
                         if ($model->status == Trips::TRIP_STATUS_DEMURRAGE) {
                             $modelDemurrages->created_at = Utilities::get_DateTime();
                             $modelDemurrages->trip_id = $model->id;
-                            $modelDemurrages->header_id = $model->id;
                             $modelDemurrages->user_id = Utilities::get_UserID();
                             $modelDemurrages->trip_no = $model->trip_no . 'D';
                             $modelDemurrages->percentage = $data['TripDemurrages']['percentage'];
@@ -375,7 +374,6 @@ class TripsController extends Controller
                         } else if ($model->status == Trips::TRIP_STATUS_FOUL_TRIP) {
                             $modelFoulTrips->created_at = Utilities::get_DateTime();
                             $modelFoulTrips->trip_id = $model->id;
-                            $modelFoulTrips->header_id = $model->id;
                             $modelFoulTrips->user_id = Utilities::get_UserID();
                             $modelFoulTrips->trip_no = $model->trip_no . 'FT';
                             $modelFoulTrips->percentage = $data['TripFoulTrips']['percentage'];

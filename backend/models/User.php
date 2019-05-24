@@ -33,6 +33,7 @@ use Yii;
  * @property TripExpenses[] $tripExpenses
  * @property TripFoulTrips[] $tripFoulTrips
  * @property TripPartitions[] $tripPartitions
+ * @property TripTransactions[] $tripTransactions
  * @property Trips[] $trips
  */
 class User extends \yii\db\ActiveRecord
@@ -205,6 +206,14 @@ class User extends \yii\db\ActiveRecord
     public function getTripPartitions()
     {
         return $this->hasMany(TripPartitions::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripTransactions()
+    {
+        return $this->hasMany(TripTransactions::className(), ['user_id' => 'id']);
     }
 
     /**
