@@ -363,6 +363,7 @@ class TripsController extends Controller
                             $modelDemurrages->trip_id = $model->id;
                             $modelDemurrages->header_id = $model->id;
                             $modelDemurrages->user_id = Utilities::get_UserID();
+                            $modelDemurrages->trip_no = $model->trip_no . 'D';
                             $modelDemurrages->percentage = $data['TripDemurrages']['percentage'];
                             $modelDemurrages->days = $data['TripDemurrages']['days'];
                             $modelDemurrages->trip_amount = Utilities::setAdvanceNumberFormat($data['TripDemurrages']['trip_amount']);
@@ -376,6 +377,7 @@ class TripsController extends Controller
                             $modelFoulTrips->trip_id = $model->id;
                             $modelFoulTrips->header_id = $model->id;
                             $modelFoulTrips->user_id = Utilities::get_UserID();
+                            $modelFoulTrips->trip_no = $model->trip_no . 'FT';
                             $modelFoulTrips->percentage = $data['TripFoulTrips']['percentage'];
                             $modelFoulTrips->trip_amount = Utilities::setAdvanceNumberFormat($data['TripFoulTrips']['trip_amount']);
                             $modelFoulTrips->gross_amount = Utilities::setAdvanceNumberFormat($data['TripFoulTrips']['gross_amount']);
