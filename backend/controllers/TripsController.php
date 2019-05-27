@@ -11,6 +11,7 @@ use backend\models\TripExpenses;
 use backend\models\TripPartitions;
 use backend\models\TripDemurrages;
 use backend\models\TripFoulTrips;
+use backend\models\TripTransactions;
 use backend\models\Model;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -372,6 +373,17 @@ class TripsController extends Controller
     
                             if (!($flag = $modelDemurrages->save(false))) {
                                 $transaction->rollBack();
+                            } else {
+                                $modelTransactions = TripTransactions::find()->where(['trip_demurrage_id' => $modelDemurrages->id, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
+
+                                if ($modelTransactions == null || $modelTransactions == '') {
+                                    $modelTransactions = new TripTransactions();
+                                    $modelTransactions->created_at = Utilities::get_DateTime();
+                                }
+
+                                // add trip and demurrage
+                                // $this->createAndUpdateTripTransactions($modelTransactions, $model, $model);
+                                $this->createAndUpdateTripTransactions($modelTransactions, $model, $modelDemurrages);
                             }
                         } else if ($model->status == Trips::TRIP_STATUS_FOUL_TRIP) {
                             $modelFoulTrips->updated_at = Utilities::get_DateTime();
@@ -384,7 +396,27 @@ class TripsController extends Controller
     
                             if (!($flag = $modelFoulTrips->save(false))) {
                                 $transaction->rollBack();
+                            } else {
+                                $modelTransactions = TripTransactions::find()->where(['trip_foul_trip_id' => $modelFoulTrips->id, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
+
+                                if ($modelTransactions == null || $modelTransactions == '') {
+                                    $modelTransactions = new TripTransactions();
+                                    $modelTransactions->created_at = Utilities::get_DateTime();
+                                }
+
+                                // add foul trip
+                                $this->createAndUpdateTripTransactions($modelTransactions, $model, $modelFoulTrips);
                             }
+                        } else {
+                            $modelTransactions = TripTransactions::find()->where(['trip_id' => $model->id, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
+
+                            if ($modelTransactions == null || $modelTransactions == '') {
+                                $modelTransactions = new TripTransactions();
+                                $modelTransactions->created_at = Utilities::get_DateTime();
+                            }
+
+                            // add trip
+                            $this->createAndUpdateTripTransactions($modelTransactions, $model, $model);
                         }
                     }
 
@@ -452,5 +484,28 @@ class TripsController extends Controller
         $modelPartitions->total_personnel_profit_amount = $totalPersonnelProfit;
         $modelPartitions->net_profit_amount = $netAmount - $totalPersonnelProfit;
         $modelPartitions->save();
+    }
+    
+    protected function createAndUpdateTripTransactions($modelTransactions, $model, $tripStatusModel)
+    {
+        if ($model->status == Trips::TRIP_STATUS_DEMURRAGE) {
+            $modelTransactions->trip_demurrage_id = $tripStatusModel->id;
+            $modelTransactions->amount = $tripStatusModel->gross_amount;
+        } else if ($model->status == Trips::TRIP_STATUS_FOUL_TRIP) {
+            $modelTransactions->trip_foul_trip_id = $tripStatusModel->id;
+            $modelTransactions->amount = $tripStatusModel->gross_amount;
+        } else {
+            $modelTransactions->trip_id = $tripStatusModel->id;
+            $modelTransactions->amount = $tripStatusModel->amount;
+        }
+
+        $modelTransactions->updated_at = Utilities::get_DateTime();
+        $modelTransactions->date = Utilities::get_Date();
+        $modelTransactions->client_id = $model->client_id;
+        $modelTransactions->user_id = Utilities::get_UserID();
+        $modelTransactions->trip_status = $model->status;
+        $modelTransactions->trip_no = $tripStatusModel->trip_no;
+        $modelTransactions->ref_no = '00001';
+        $modelTransactions->save();
     }
 }

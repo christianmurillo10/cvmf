@@ -19,5 +19,8 @@ TRUNCATE `trips`;
 TRUNCATE `trip_personnels`;
 TRUNCATE `trip_expenses`;
 TRUNCATE `trip_partitions`;
+TRUNCATE `trip_demurrages`;
+TRUNCATE `trip_foul_trips`;
+TRUNCATE `trip_transactions`;
 
 SET FOREIGN_KEY_CHECKS = 1;
