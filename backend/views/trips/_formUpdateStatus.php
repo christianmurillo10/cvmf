@@ -121,20 +121,20 @@ if ($model->status == Trips::TRIP_STATUS_DONE) {
                                     ]
                             ]);?>
                         </div>
+                        <div class="col-md-6">
+                            <?= $form->field($modelFoulTrips, 'percentage')->textInput(['id' => 'percentageFoulTripID', 'oninput' => 'computeFoulTripGrossAmount()']) ?>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6">
-                            <?= $form->field($modelFoulTrips, 'percentage')->textInput(['id' => 'percentageFoulTripID', 'oninput' => 'computeFoulTripGrossAmount()']) ?>
-                        </div>
-                        <div class="col-md-6">
                             <?= $form->field($modelFoulTrips, 'trip_amount')->textInput(['id' => 'tripAmountFoulTripID', 'class' => 'form-control text-right', 'oninput' => 'computeFoulTripGrossAmount()', 'readonly' => true]) ?>
                         </div>
+                        <div class="col-md-6">
+                            <?= $form->field($modelFoulTrips, 'gross_amount')->textInput(['id' => 'grossAmountFoulTripID', 'class' => 'form-control text-right', 'placeholder' => '0.00', 'readonly' => true]) ?>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-md-offset-6">
-                    <?= $form->field($modelFoulTrips, 'gross_amount')->textInput(['id' => 'grossAmountFoulTripID', 'class' => 'form-control text-right', 'placeholder' => '0.00', 'readonly' => true]) ?>
                 </div>
                 <div class="col-md-12">
                     <?= $form->field($modelFoulTrips, 'remarks')->textarea(['rows' => 5]) ?>
