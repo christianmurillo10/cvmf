@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = 'View: ' . $model->trip_no;
                                 <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->total_expense_amount, 2); ?>)</td>
                             </tr>
                             <tr>
-                                <th>Tax (<?= $modelPartitions->taxPercentage->value; ?>%)</th>
+                                <th>Tax (<?= $modelPartitions->tax_percentage_id == null ? 0 : $modelPartitions->taxPercentage->value; ?>%)</th>
                                 <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->vat_amount, 2); ?>)</td>
                             </tr>
                             <tr>

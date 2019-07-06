@@ -61,7 +61,7 @@ class Trips extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['trip_no', 'amount', 'remarks', 'user_id', 'client_id', 'vehicle_id', 'destination_from_id', 'destination_to_id', 'date_issued', 'created_at'], 'required'],
+            [['trip_no', 'amount', 'user_id', 'client_id', 'vehicle_id', 'destination_from_id', 'destination_to_id', 'date_issued', 'created_at'], 'required'],
             [['amount'], 'number'],
             [['remarks'], 'string'],
             [['user_id', 'client_id', 'client_direct_company_id', 'vehicle_id', 'destination_from_id', 'destination_to_id', 'status', 'is_deleted'], 'integer'],

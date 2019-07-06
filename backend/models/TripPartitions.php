@@ -47,7 +47,7 @@ class TripPartitions extends \yii\db\ActiveRecord
     {
         return [
             // [['gross_amount', 'vat_amount', 'maintenance_amount', 'total_expense_amount', 'net_amount', 'total_personnel_profit_amount', 'net_profit_amount'], 'number'],
-            [['user_id', 'trip_id', 'tax_percentage_id', 'created_at'], 'required'],
+            [['user_id', 'trip_id', 'created_at'], 'required'],
             [['user_id', 'trip_id', 'tax_percentage_id', 'personnel_commission_type', 'is_deleted'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
