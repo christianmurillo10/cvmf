@@ -16,6 +16,8 @@ use Yii;
  * @property int $expense_type 1=Company 2=Personnel
  * @property string $created_at
  * @property string $updated_at
+ * @property int $is_refundable
+ * @property int $is_claimed
  * @property int $is_deleted
  *
  * @property Trips $trip
@@ -44,7 +46,7 @@ class TripExpenses extends \yii\db\ActiveRecord
             [['amount'], 'number'],
             [['amount', 'expense_list_id', 'expense_type'], 'required'],
             [['remarks'], 'string'],
-            [['user_id', 'trip_id', 'expense_list_id', 'expense_type', 'is_deleted'], 'integer'],
+            [['user_id', 'trip_id', 'expense_list_id', 'expense_type', 'is_refundable', 'is_claimed', 'is_deleted'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['trip_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trips::className(), 'targetAttribute' => ['trip_id' => 'id']],
             [['expense_list_id'], 'exist', 'skipOnError' => true, 'targetClass' => ExpenseLists::className(), 'targetAttribute' => ['expense_list_id' => 'id']],
@@ -67,6 +69,8 @@ class TripExpenses extends \yii\db\ActiveRecord
             'expense_type' => 'Expense Type',
             'created_at' => 'Date Created',
             'updated_at' => 'Date Modified',
+            'is_refundable' => 'Refundable?',
+            'is_claimed' => 'Claimed?',
             'is_deleted' => 'Is Deleted',
         ];
     }

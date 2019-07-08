@@ -60,10 +60,12 @@ $this->params['breadcrumbs'][] = 'View: ' . $model->trip_no;
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th style="width: 20%">Type</th>
-                                <th style="width: 20%">Expense</th>
-                                <th style="width: 20%">Amount</th>
-                                <th style="width: 40%">Remarks</th>
+                                <th style="width: 15%">Type</th>
+                                <th style="width: 15%">Expense</th>
+                                <th style="width: 15%">Amount</th>
+                                <th class="text-center" style="width: 10%">Refundable?</th>
+                                <th class="text-center" style="width: 10%">Claimed?</th>
+                                <th style="width: 35%">Remarks</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,6 +74,8 @@ $this->params['breadcrumbs'][] = 'View: ' . $model->trip_no;
                                 <td><?= TripExpenses::get_ActiveExpenseType($expense->expense_type) ?></td>
                                 <td><?= $expense->expenseList->name ?></td>
                                 <td><?= Utilities::setNumberFormatWithPeso($expense->amount, 2); ?></td>
+                                <td class="text-center"><?= Utilities::get_ActiveSelect($expense->is_refundable) ?></td>
+                                <td class="text-center"><?= Utilities::get_ActiveSelect($expense->is_claimed) ?></td>
                                 <td><?= $expense->remarks ?></td>
                             </tr>
                             <?php endforeach;?>

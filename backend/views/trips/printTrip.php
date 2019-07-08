@@ -46,10 +46,12 @@ use common\models\utilities\Utilities;
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th class="text-center" style="width: 20%">Type</th>
-            <th class="text-center" style="width: 20%">Expense</th>
-            <th class="text-center" style="width: 20%">Amount</th>
-            <th class="text-center" style="width: 40%">Remarks</th>
+            <th class="text-center" style="width: 15%">Type</th>
+            <th class="text-center" style="width: 15%">Expense</th>
+            <th class="text-center" style="width: 15%">Amount</th>
+            <th class="text-center" style="width: 10%">Refundable?</th>
+            <th class="text-center" style="width: 10%">Claimed?</th>
+            <th class="text-center" style="width: 35%">Remarks</th>
         </tr>
     </thead>
     <tbody>
@@ -58,6 +60,8 @@ use common\models\utilities\Utilities;
             <td><?= TripExpenses::get_ActiveExpenseType($expense->expense_type) ?></td>
             <td><?= $expense->expenseList->name ?></td>
             <td class="text-right"><?= Utilities::setNumberFormatWithPeso($expense->amount, 2); ?></td>
+            <td class="text-center"><?= Utilities::get_ActiveSelect($expense->is_refundable) ?></td>
+            <td class="text-center"><?= Utilities::get_ActiveSelect($expense->is_claimed) ?></td>
             <td><?= $expense->remarks ?></td>
         </tr>
         <?php endforeach;?>
