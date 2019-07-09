@@ -15,12 +15,14 @@ use Yii;
  * @property string $net_amount
  * @property string $total_personnel_profit_amount
  * @property string $net_profit_amount
+ * @property int $maintenance_percentage
  * @property int $user_id refd to user.id
  * @property int $trip_id refd to trips.id
  * @property int $tax_percentage_id refd to tax_percentage_lists.id
  * @property string $created_at
  * @property string $updated_at
  * @property int $personnel_commission_type 1=Percentage 2=Per Trip
+ * @property int $maintenance_type 1=Percentage 2=Amount
  * @property int $is_deleted
  *
  * @property User $user
@@ -31,6 +33,9 @@ class TripPartitions extends \yii\db\ActiveRecord
 {
     const PERSONNEL_COMMISSION_TYPE_PERCENTAGE = 1;
     const PERSONNEL_COMMISSION_TYPE_PER_TRIP = 2;
+
+    const MAINTENANCE_TYPE_PERCENTAGE = 1;
+    const MAINTENANCE_TYPE_AMOUNT = 2;
 
     /**
      * {@inheritdoc}
@@ -48,7 +53,7 @@ class TripPartitions extends \yii\db\ActiveRecord
         return [
             // [['gross_amount', 'vat_amount', 'maintenance_amount', 'total_expense_amount', 'net_amount', 'total_personnel_profit_amount', 'net_profit_amount'], 'number'],
             [['user_id', 'trip_id', 'created_at'], 'required'],
-            [['user_id', 'trip_id', 'tax_percentage_id', 'personnel_commission_type', 'is_deleted'], 'integer'],
+            [['maintenance_percentage', 'user_id', 'trip_id', 'tax_percentage_id', 'personnel_commission_type', 'is_deleted'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['trip_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trips::className(), 'targetAttribute' => ['trip_id' => 'id']],
@@ -70,12 +75,14 @@ class TripPartitions extends \yii\db\ActiveRecord
             'net_amount' => 'Net Amount',
             'total_personnel_profit_amount' => 'Total Personnel Profit Amount',
             'net_profit_amount' => 'Net Profit Amount',
+            'maintenance_percentage' => 'Maintenance Percentage',
             'user_id' => 'User ID',
             'trip_id' => 'Trip ID',
             'tax_percentage_id' => 'Tax Percentage ID',
             'created_at' => 'Date Created',
             'updated_at' => 'Date Modified',
             'personnel_commission_type' => 'Personnel Commission Type',
+            'maintenance_type' => 'Maintenance Type',
             'is_deleted' => 'Is Deleted',
         ];
     }

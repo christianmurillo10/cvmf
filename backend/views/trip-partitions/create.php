@@ -132,4 +132,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
         computeNetProfitAmount();
     }
+
+    function displayMaintenancePercentage() {
+        var percentage = <?= TripPartitions::MAINTENANCE_TYPE_PERCENTAGE ?>;
+        var maintenanceType = $('input[name="TripPartitions[maintenance_type]"]:checked').val();
+
+        if (maintenanceType == percentage) {
+            $('.field-maintenancePercentageID').show();
+            $('#maintenanceAmountID').attr('readonly', true);
+        } else {
+            $('.field-maintenancePercentageID').hide();
+            $('#maintenanceAmountID').attr('readonly', false);
+        }
+    }
+
+    function computeMaintenanceAmount() {
+        var maintenancePercentage = $('#maintenancePercentageID').val();
+        var grossAmount = removeCommas($('#grossAmountID').val());
+
+        var maintenanceAmount = parseFloat((grossAmount * maintenancePercentage) / 100).toFixed(2);
+
+        $('#maintenanceAmountID').val(numberWithCommas(maintenanceAmount));
+    }
 </script>

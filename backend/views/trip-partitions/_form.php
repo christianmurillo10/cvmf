@@ -96,6 +96,10 @@ use backend\models\TaxPercentageLists;
                                         ],
                                     ]); ?>
 
+                                    <?= $form->field($model, 'maintenance_type')->radioList([1 => 'Percentage', 2 => 'Amount'], ['itemOptions' => ['id' => 'maintenance-type', 'onchange' => 'displayMaintenancePercentage();']]); ?>
+
+                                    <?= $form->field($model, 'maintenance_percentage')->textInput(['id' => 'maintenancePercentageID', 'class' => 'form-control text-right', 'oninput' => 'computeMaintenanceAmount()', 'maxlength' => true]) ?>
+
                                     <?= $form->field($model, 'maintenance_amount')->textInput(['id' => 'maintenanceAmountID', 'class' => 'form-control text-right', 'oninput' => 'formatNumberWithCommas(this.id, this.value), computeNetProfitAmount();', 'maxlength' => true]) ?>
                                 </div>
                                 <div class="col-md-6">
