@@ -23,6 +23,7 @@ use Yii;
  * @property string $updated_at
  * @property int $personnel_commission_type 1=Percentage 2=Per Trip
  * @property int $maintenance_type 1=Percentage 2=Amount
+ * @property int $computation_type 1=Computation 1, 2=Computation 2
  * @property int $is_deleted
  *
  * @property User $user
@@ -36,6 +37,9 @@ class TripPartitions extends \yii\db\ActiveRecord
 
     const MAINTENANCE_TYPE_PERCENTAGE = 1;
     const MAINTENANCE_TYPE_AMOUNT = 2;
+
+    const COMPUTATION_TYPE_1 = 1;
+    const COMPUTATION_TYPE_2 = 2;
 
     /**
      * {@inheritdoc}
@@ -53,7 +57,7 @@ class TripPartitions extends \yii\db\ActiveRecord
         return [
             // [['gross_amount', 'vat_amount', 'maintenance_amount', 'total_expense_amount', 'net_amount', 'total_personnel_profit_amount', 'net_profit_amount'], 'number'],
             [['user_id', 'trip_id', 'created_at'], 'required'],
-            [['maintenance_percentage', 'user_id', 'trip_id', 'tax_percentage_id', 'personnel_commission_type', 'is_deleted'], 'integer'],
+            [['maintenance_percentage', 'user_id', 'trip_id', 'tax_percentage_id', 'personnel_commission_type', 'maintenance_type', 'computation_type', 'is_deleted'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['trip_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trips::className(), 'targetAttribute' => ['trip_id' => 'id']],
@@ -76,13 +80,14 @@ class TripPartitions extends \yii\db\ActiveRecord
             'total_personnel_profit_amount' => 'Total Personnel Profit Amount',
             'net_profit_amount' => 'Net Profit Amount',
             'maintenance_percentage' => 'Maintenance Percentage',
-            'user_id' => 'User ID',
-            'trip_id' => 'Trip ID',
-            'tax_percentage_id' => 'Tax Percentage ID',
+            'user_id' => 'User',
+            'trip_id' => 'Trip',
+            'tax_percentage_id' => 'Tax Percentage',
             'created_at' => 'Date Created',
             'updated_at' => 'Date Modified',
             'personnel_commission_type' => 'Personnel Commission Type',
             'maintenance_type' => 'Maintenance Type',
+            'computation_type' => 'Computation Type',
             'is_deleted' => 'Is Deleted',
         ];
     }
@@ -109,5 +114,41 @@ class TripPartitions extends \yii\db\ActiveRecord
     public function getTaxPercentage()
     {
         return $this->hasOne(TaxPercentageLists::className(), ['id' => 'tax_percentage_id']);
+    }
+    
+    public static function get_PersonnelCommissionType($id = null)
+    {
+        $active = [
+            self::PERSONNEL_COMMISSION_TYPE_PERCENTAGE => 'Percentage',
+            self::PERSONNEL_COMMISSION_TYPE_PER_TRIP => 'Per Trip',
+        ];
+        if (is_null($id))
+            return $active;
+        else
+            return $active[$id];
+    }
+    
+    public static function get_MaintenanceType($id = null)
+    {
+        $active = [
+            self::MAINTENANCE_TYPE_PERCENTAGE => 'Percentage',
+            self::MAINTENANCE_TYPE_AMOUNT => 'Amount',
+        ];
+        if (is_null($id))
+            return $active;
+        else
+            return $active[$id];
+    }
+    
+    public static function get_ComputationType($id = null)
+    {
+        $active = [
+            self::COMPUTATION_TYPE_1 => 'Computation 1',
+            self::COMPUTATION_TYPE_2 => 'Computation 2',
+        ];
+        if (is_null($id))
+            return $active;
+        else
+            return $active[$id];
     }
 }
