@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 use backend\models\Trips;
 use backend\models\TripExpenses;
 use backend\models\TripPersonnels;
+use backend\models\TripPartitions;
 use common\models\utilities\Utilities;
 
 /* @var $this yii\web\View */
@@ -55,8 +56,8 @@ $this->params['breadcrumbs'][] = 'View: ' . $model->trip_no;
             </div>
 
             <br>
-            <div class="row">
-                <div class="col-xs-12">
+            <div class="col-md-12 table-responsive">
+                <div class="row">
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -94,17 +95,20 @@ $this->params['breadcrumbs'][] = 'View: ' . $model->trip_no;
                                 <td class="text-right"><?= Utilities::setNumberFormatWithPeso($modelPartitions->gross_amount, 2); ?></td>
                             </tr>
                             <tr>
-                                <th style="width:50%">Total Expenses:</th>
-                                <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->total_expense_amount, 2); ?>)</td>
-                            </tr>
-                            <tr>
-                                <th>Tax (<?= $modelPartitions->tax_percentage_id == null ? 0 : $modelPartitions->taxPercentage->value; ?>%)</th>
+                                <th>VAT/Tax (<?= $modelPartitions->tax_percentage_id == null ? 0 : $modelPartitions->taxPercentage->value; ?>%)</th>
                                 <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->vat_amount, 2); ?>)</td>
                             </tr>
                             <tr>
                                 <th>Maintenance:</th>
                                 <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->maintenance_amount, 2); ?>)</td>
                             </tr>
+                            <?php if ($modelPartitions->computation_type == TripPartitions::COMPUTATION_TYPE_2): ?>
+                            <tr>
+                                <th style="width:50%">Total Expenses:</th>
+                                <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->total_expense_amount, 2); ?>)</td>
+                            </tr>
+                            <?php endif; ?>
+
                             <tr>
                                 <th></th>
                                 <th><hr style="margin-top: 5px; border-top: 1px solid #333;"/></th>
@@ -118,6 +122,12 @@ $this->params['breadcrumbs'][] = 'View: ' . $model->trip_no;
                                 <th>Total Personnel Profit:</th>
                                 <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->total_personnel_profit_amount, 2); ?>)</td>
                             </tr>
+                            <?php if ($modelPartitions->computation_type == TripPartitions::COMPUTATION_TYPE_1): ?>
+                            <tr>
+                                <th style="width:50%">Total Expenses:</th>
+                                <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->total_expense_amount, 2); ?>)</td>
+                            </tr>
+                            <?php endif; ?>
                             <tr>
                                 <th></th>
                                 <th><hr style="margin-top: 5px; border-top: 1px solid #333;"/></th>

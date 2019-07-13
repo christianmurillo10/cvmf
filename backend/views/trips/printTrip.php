@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 use backend\models\Trips;
 use backend\models\TripExpenses;
 use backend\models\TripPersonnels;
+use backend\models\TripPartitions;
 use common\models\utilities\Utilities;
 ?>
 <?= $this->render('_header', [
@@ -79,12 +80,6 @@ use common\models\utilities\Utilities;
     <tr>
         <th style="width:35%"></th>
         <th style="width:35%"></th>
-        <th style="width:25%">Total Expenses:</th>
-        <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->total_expense_amount, 2); ?>)</td>
-    </tr>
-    <tr>
-        <th style="width:35%"></th>
-        <th style="width:35%"></th>
         <th>Tax (<?= $modelPartitions->taxPercentage->value; ?>%)</th>
         <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->vat_amount, 2); ?>)</td>
     </tr>
@@ -94,6 +89,14 @@ use common\models\utilities\Utilities;
         <th>Maintenance:</th>
         <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->maintenance_amount, 2); ?>)</td>
     </tr>
+    <?php if ($modelPartitions->computation_type == TripPartitions::COMPUTATION_TYPE_2): ?>
+    <tr>
+        <th style="width:35%"></th>
+        <th style="width:35%"></th>
+        <th style="width:25%">Total Expenses:</th>
+        <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->total_expense_amount, 2); ?>)</td>
+    </tr>
+    <?php endif; ?>
     <tr>
         <th style="width:35%"></th>
         <th style="width:35%"></th>
@@ -112,6 +115,14 @@ use common\models\utilities\Utilities;
         <th>Total Personnel Profit:</th>
         <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->total_personnel_profit_amount, 2); ?>)</td>
     </tr>
+    <?php if ($modelPartitions->computation_type == TripPartitions::COMPUTATION_TYPE_1): ?>
+    <tr>
+        <th style="width:35%"></th>
+        <th style="width:35%"></th>
+        <th style="width:25%">Total Expenses:</th>
+        <td class="text-right">(<?= Utilities::setNumberFormatWithPeso($modelPartitions->total_expense_amount, 2); ?>)</td>
+    </tr>
+    <?php endif; ?>
     <tr>
         <th style="width:35%"></th>
         <th style="width:35%"></th>
