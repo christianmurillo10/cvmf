@@ -88,8 +88,7 @@ use backend\models\TripPartitions;
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <?= $form->field($model, 'computation_type')->radioList(TripPartitions::get_ComputationType(), ['itemOptions' => ['id' => 'computation-type', 'onchange' => '']]); ?>
-                                    
+                                    <?= $form->field($model, 'computation_type')->radioList(TripPartitions::get_ComputationType(), ['itemOptions' => ['id' => 'computation-type', 'onchange' => 'changeComputationNote(); computeNetProfitAmount();']]); ?>
                                 </div>
                                 <div class="col-md-7">
                                     <div>
