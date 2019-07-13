@@ -382,8 +382,10 @@ class TripsController extends Controller
                                 }
 
                                 // add trip and demurrage
-                                // $this->createAndUpdateTripTransactions($modelTransactions, $model, $model);
-                                $this->createAndUpdateTripTransactions($modelTransactions, $model, $modelDemurrages);
+                                $modelTrip = $this->createAndUpdateTripTransactions($modelTransactions, $model, $model);
+                                if ($modelTrip[0] != 0) {
+                                    $this->createAndUpdateTripTransactions($modelTransactions, $model, $modelDemurrages);
+                                }
                             }
                         } else if ($model->status == Trips::TRIP_STATUS_FOUL_TRIP) {
                             $modelFoulTrips->updated_at = Utilities::get_DateTime();
@@ -489,8 +491,13 @@ class TripsController extends Controller
     protected function createAndUpdateTripTransactions($modelTransactions, $model, $tripStatusModel)
     {
         if ($model->status == Trips::TRIP_STATUS_DEMURRAGE) {
-            $modelTransactions->trip_demurrage_id = $tripStatusModel->id;
-            $modelTransactions->amount = $tripStatusModel->gross_amount;
+            if (empty($tripStatusModel->status)) {
+                $modelTransactions->trip_demurrage_id = $tripStatusModel->id;
+                $modelTransactions->amount = $tripStatusModel->gross_amount;
+            } else {
+                $modelTransactions->trip_id = $tripStatusModel->id;
+                $modelTransactions->amount = $tripStatusModel->amount;
+            }
         } else if ($model->status == Trips::TRIP_STATUS_FOUL_TRIP) {
             $modelTransactions->trip_foul_trip_id = $tripStatusModel->id;
             $modelTransactions->amount = $tripStatusModel->gross_amount;
@@ -506,6 +513,16 @@ class TripsController extends Controller
         $modelTransactions->trip_status = $model->status;
         $modelTransactions->trip_no = $tripStatusModel->trip_no;
         $modelTransactions->ref_no = '00001';
-        $modelTransactions->save();
+
+
+        // =============================== THIS IS NOT FINISHED =====================================
+        // if ($modelTransactions->validate()) {
+        //     $modelTransactions->save();
+        //     $messageArr[0] = $modelTransactions->id;
+        // } else {
+        //     $messageArr[0] = 0;
+        // }
+
+        // return $messageArr;
     }
 }
