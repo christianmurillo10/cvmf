@@ -191,10 +191,12 @@ $this->params['breadcrumbs'][] = $this->title;
         if (maintenanceType == percentage) {
             $('.field-maintenancePercentageID').show();
             $('#maintenanceAmountID').attr('readonly', true);
+            $('#maintenancePercentageID').val(0);
             $('#maintenanceAmountID').val(0);
         } else {
             $('.field-maintenancePercentageID').hide();
             $('#maintenanceAmountID').attr('readonly', false);
+            $('#maintenancePercentageID').val(0);
             $('#maintenanceAmountID').val(0);
         }
     }
