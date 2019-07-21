@@ -374,18 +374,21 @@ class TripsController extends Controller
                             if (!($flag = $modelDemurrages->save(false))) {
                                 $transaction->rollBack();
                             } else {
-                                $modelTransactions = TripTransactions::find()->where(['trip_demurrage_id' => $modelDemurrages->id, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
-
+                                // trip transactions (parent of demurrage)
+                                $modelTransactions = TripTransactions::find()->where(['trip_id' => $model->id, 'trip_demurrage_id' => null, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
                                 if ($modelTransactions == null || $modelTransactions == '') {
                                     $modelTransactions = new TripTransactions();
                                     $modelTransactions->created_at = Utilities::get_DateTime();
                                 }
+                                $this->createAndUpdateTripTransactions($modelTransactions, $model, $model);
 
-                                // add trip and demurrage
-                                $modelTrip = $this->createAndUpdateTripTransactions($modelTransactions, $model, $model);
-                                if ($modelTrip[0] != 0) {
-                                    $this->createAndUpdateTripTransactions($modelTransactions, $model, $modelDemurrages);
+                                // trip transactions (child of trips)
+                                $modelTransactionsDemurrage = TripTransactions::find()->where(['trip_id' => $model->id, 'trip_demurrage_id' => $modelDemurrages->id, 'is_deleted' => Utilities::NO])->orderBy('id DESC')->limit(1)->one();
+                                if ($modelTransactionsDemurrage == null || $modelTransactionsDemurrage == '') {
+                                    $modelTransactionsDemurrage = new TripTransactions();
+                                    $modelTransactionsDemurrage->created_at = Utilities::get_DateTime();
                                 }
+                                $this->createAndUpdateTripTransactions($modelTransactionsDemurrage, $model, $modelDemurrages);
                             }
                         } else if ($model->status == Trips::TRIP_STATUS_FOUL_TRIP) {
                             $modelFoulTrips->updated_at = Utilities::get_DateTime();
@@ -492,6 +495,7 @@ class TripsController extends Controller
     {
         if ($model->status == Trips::TRIP_STATUS_DEMURRAGE) {
             if (empty($tripStatusModel->status)) {
+                $modelTransactions->trip_id = $model->id;
                 $modelTransactions->trip_demurrage_id = $tripStatusModel->id;
                 $modelTransactions->amount = $tripStatusModel->gross_amount;
             } else {
@@ -513,16 +517,15 @@ class TripsController extends Controller
         $modelTransactions->trip_status = $model->status;
         $modelTransactions->trip_no = $tripStatusModel->trip_no;
         $modelTransactions->ref_no = '00001';
-
-
+        
         // =============================== THIS IS NOT FINISHED =====================================
-        // if ($modelTransactions->validate()) {
-        //     $modelTransactions->save();
-        //     $messageArr[0] = $modelTransactions->id;
-        // } else {
-        //     $messageArr[0] = 0;
-        // }
+        if ($modelTransactions->validate()) {
+            $modelTransactions->save();
+            $messageArr[0] = $modelTransactions->id;
+        } else {
+            $messageArr[0] = 0;
+        }
 
-        // return $messageArr;
+        return $messageArr;
     }
 }
