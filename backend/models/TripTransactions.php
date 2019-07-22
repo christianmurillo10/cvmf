@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use common\models\utilities\Utilities;
 
 /**
  * This is the model class for table "trip_transactions".
@@ -73,17 +74,17 @@ class TripTransactions extends \yii\db\ActiveRecord
             'ref_no' => 'Ref No',
             'trip_no' => 'Trip No',
             'amount' => 'Amount',
-            'trip_id' => 'Trip ID',
-            'trip_demurrage_id' => 'Trip Demurrage ID',
-            'trip_foul_trip_id' => 'Trip Foul Trip ID',
-            'client_id' => 'Client ID',
-            'user_id' => 'User ID',
+            'trip_id' => 'Trip',
+            'trip_demurrage_id' => 'Trip Demurrage',
+            'trip_foul_trip_id' => 'Trip Foul Trip',
+            'client_id' => 'Client',
+            'user_id' => 'User',
             'date' => 'Date',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Date Created',
+            'updated_at' => 'Last Modified',
             'trip_status' => 'Trip Status',
-            'is_billed' => 'Is Billed',
-            'is_fully_paid' => 'Is Fully Paid',
+            'is_billed' => 'Billed?',
+            'is_fully_paid' => 'Fully Paid?',
             'is_deleted' => 'Is Deleted',
         ];
     }
@@ -126,5 +127,52 @@ class TripTransactions extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public static function get_ActiveTripStatus($id = null)
+    {
+        $active = [
+            self::TRIP_STATUS_DONE => 'Done',
+            self::TRIP_STATUS_DEMURRAGE => 'Demurrage',
+            self::TRIP_STATUS_FOUL_TRIP => 'Foul Trip',
+        ];
+        if (is_null($id))
+            return $active;
+        else
+            return $active[$id];
+    }
+
+    public function getTripStatus()
+    {
+        return self::get_ActiveTripStatus($this->trip_status);
+    }
+
+    public function getColoredTripStatus() 
+    {
+        $status_id = $this->trip_status;
+        $status = self::get_ActiveTripStatus($this->trip_status);
+
+        if ($status_id == self::TRIP_STATUS_DONE) {
+            return '<span class="label label-success">'.$status.'</span>';
+        } else if ($status_id == self::TRIP_STATUS_DEMURRAGE) {
+            return '<span class="label label-warning">'.$status.'</span>';
+        } else if ($status_id == self::TRIP_STATUS_FOUL_TRIP) {
+            return '<span class="label label-danger">'.$status.'</span>';
+        }
+    }
+
+    public function getIsBilled()
+    {
+        return Utilities::get_ActiveSelect($this->is_billed);
+    }
+
+    public function getIsFullyPaid()
+    {
+        return Utilities::get_ActiveSelect($this->is_fully_paid);
+    }
+
+    public function getFormattedAmount() 
+    {
+        return Utilities::setNumberFormatWithPeso($this->amount, 2);
     }
 }

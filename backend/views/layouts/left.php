@@ -46,6 +46,7 @@
                         'url' => '#',
                         'items' => [
                             ['label' => 'Trips', 'icon' => 'road', 'url' => ['/trips'],],
+                            ['label' => 'Transactions', 'icon' => 'list', 'url' => ['/trip-transactions'],],
                         ],
                     ],
                     [
