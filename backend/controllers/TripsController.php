@@ -498,34 +498,28 @@ class TripsController extends Controller
                 $modelTransactions->trip_id = $model->id;
                 $modelTransactions->trip_demurrage_id = $tripStatusModel->id;
                 $modelTransactions->amount = $tripStatusModel->gross_amount;
+                $modelTransactions->trip_status = TripTransactions::TRIP_STATUS_DEMURRAGE;
             } else {
                 $modelTransactions->trip_id = $tripStatusModel->id;
                 $modelTransactions->amount = $tripStatusModel->amount;
+                $modelTransactions->trip_status = TripTransactions::TRIP_STATUS_DONE;
             }
         } else if ($model->status == Trips::TRIP_STATUS_FOUL_TRIP) {
             $modelTransactions->trip_foul_trip_id = $tripStatusModel->id;
             $modelTransactions->amount = $tripStatusModel->gross_amount;
+            $modelTransactions->trip_status = TripTransactions::TRIP_STATUS_FOUL_TRIP;
         } else {
             $modelTransactions->trip_id = $tripStatusModel->id;
             $modelTransactions->amount = $tripStatusModel->amount;
+            $modelTransactions->trip_status = TripTransactions::TRIP_STATUS_DONE;
         }
 
         $modelTransactions->updated_at = Utilities::get_DateTime();
         $modelTransactions->date = Utilities::get_Date();
         $modelTransactions->client_id = $model->client_id;
         $modelTransactions->user_id = Utilities::get_UserID();
-        $modelTransactions->trip_status = $model->status;
         $modelTransactions->trip_no = $tripStatusModel->trip_no;
         $modelTransactions->ref_no = '00001';
-        
-        // =============================== THIS IS NOT FINISHED =====================================
-        if ($modelTransactions->validate()) {
-            $modelTransactions->save();
-            $messageArr[0] = $modelTransactions->id;
-        } else {
-            $messageArr[0] = 0;
-        }
-
-        return $messageArr;
+        $modelTransactions->save();
     }
 }

@@ -32,6 +32,10 @@ use Yii;
  */
 class TripTransactions extends \yii\db\ActiveRecord
 {
+    const TRIP_STATUS_DONE = 1;
+    const TRIP_STATUS_DEMURRAGE = 2;
+    const TRIP_STATUS_FOUL_TRIP = 3;
+
     /**
      * {@inheritdoc}
      */
