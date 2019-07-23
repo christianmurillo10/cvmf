@@ -29,6 +29,8 @@ use Yii;
  * @property EmployeeRelatives[] $employeeRelatives
  * @property EmployeeSalaries[] $employeeSalaries
  * @property Employees[] $employees
+ * @property TripBillingDetails[] $tripBillingDetails
+ * @property TripBillingHeaders[] $tripBillingHeaders
  * @property TripDemurrages[] $tripDemurrages
  * @property TripExpenses[] $tripExpenses
  * @property TripFoulTrips[] $tripFoulTrips
@@ -174,6 +176,22 @@ class User extends \yii\db\ActiveRecord
     public function getEmployees()
     {
         return $this->hasMany(Employees::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripBillingDetails()
+    {
+        return $this->hasMany(TripBillingDetails::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripBillingHeaders()
+    {
+        return $this->hasMany(TripBillingHeaders::className(), ['user_id' => 'id']);
     }
 
     /**

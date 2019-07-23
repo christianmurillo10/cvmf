@@ -25,6 +25,7 @@ use common\models\utilities\Utilities;
  * @property int $is_fully_paid
  * @property int $is_deleted
  *
+ * @property TripBillingDetails[] $tripBillingDetails
  * @property Trips $trip
  * @property TripDemurrages $tripDemurrage
  * @property TripFoulTrips $tripFoulTrip
@@ -87,6 +88,14 @@ class TripTransactions extends \yii\db\ActiveRecord
             'is_fully_paid' => 'Fully Paid?',
             'is_deleted' => 'Is Deleted',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripBillingDetails()
+    {
+        return $this->hasMany(TripBillingDetails::className(), ['trip_transaction_id' => 'id']);
     }
 
     /**

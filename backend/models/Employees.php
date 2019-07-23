@@ -35,6 +35,7 @@ use common\models\utilities\Utilities;
  * @property int $is_active
  * @property int $is_deleted
  *
+ * @property EmployeeBenefits[] $employeeBenefits
  * @property EmployeeContacts[] $employeeContacts
  * @property EmployeeContracts[] $employeeContracts
  * @property EmployeeEducationalBackgrounds[] $employeeEducationalBackgrounds
@@ -51,6 +52,8 @@ use common\models\utilities\Utilities;
  * @property EmploymentStatuses $employmentStatus
  * @property User $user
  * @property Positions $position
+ * @property TripBillingHeaders[] $tripBillingHeaders
+ * @property TripBillingHeaders[] $tripBillingHeaders0
  * @property TripPersonnels[] $tripPersonnels
  */
 class Employees extends \yii\db\ActiveRecord
@@ -119,6 +122,14 @@ class Employees extends \yii\db\ActiveRecord
             'is_active' => 'Active',
             'is_deleted' => 'Is Deleted',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployeeBenefits()
+    {
+        return $this->hasMany(EmployeeBenefits::className(), ['employee_id' => 'id']);
     }
 
     /**
@@ -247,6 +258,22 @@ class Employees extends \yii\db\ActiveRecord
     public function getPosition()
     {
         return $this->hasOne(Positions::className(), ['id' => 'position_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripBillingHeaders()
+    {
+        return $this->hasMany(TripBillingHeaders::className(), ['prepared_by' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripBillingHeaders0()
+    {
+        return $this->hasMany(TripBillingHeaders::className(), ['noted_by' => 'id']);
     }
 
     /**
