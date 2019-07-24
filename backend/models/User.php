@@ -31,10 +31,12 @@ use Yii;
  * @property Employees[] $employees
  * @property TripBillingDetails[] $tripBillingDetails
  * @property TripBillingHeaders[] $tripBillingHeaders
+ * @property TripCreditBalance[] $tripCreditBalances
  * @property TripDemurrages[] $tripDemurrages
  * @property TripExpenses[] $tripExpenses
  * @property TripFoulTrips[] $tripFoulTrips
  * @property TripPartitions[] $tripPartitions
+ * @property TripPaymentHeaders[] $tripPaymentHeaders
  * @property TripTransactions[] $tripTransactions
  * @property Trips[] $trips
  */
@@ -197,6 +199,14 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getTripCreditBalances()
+    {
+        return $this->hasMany(TripCreditBalance::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTripDemurrages()
     {
         return $this->hasMany(TripDemurrages::className(), ['user_id' => 'id']);
@@ -224,6 +234,14 @@ class User extends \yii\db\ActiveRecord
     public function getTripPartitions()
     {
         return $this->hasMany(TripPartitions::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripPaymentHeaders()
+    {
+        return $this->hasMany(TripPaymentHeaders::className(), ['user_id' => 'id']);
     }
 
     /**

@@ -26,6 +26,8 @@ use common\models\utilities\Utilities;
  * @property int $is_deleted
  *
  * @property TripBillingDetails[] $tripBillingDetails
+ * @property TripCreditBalance[] $tripCreditBalances
+ * @property TripPaymentDetails[] $tripPaymentDetails
  * @property Trips $trip
  * @property TripDemurrages $tripDemurrage
  * @property TripFoulTrips $tripFoulTrip
@@ -96,6 +98,22 @@ class TripTransactions extends \yii\db\ActiveRecord
     public function getTripBillingDetails()
     {
         return $this->hasMany(TripBillingDetails::className(), ['trip_transaction_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripCreditBalances()
+    {
+        return $this->hasMany(TripCreditBalance::className(), ['trip_transaction_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripPaymentDetails()
+    {
+        return $this->hasMany(TripPaymentDetails::className(), ['trip_transaction_id' => 'id']);
     }
 
     /**

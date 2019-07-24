@@ -5,32 +5,33 @@ namespace backend\models;
 use Yii;
 
 /**
- * This is the model class for table "trip_billing_details".
+ * This is the model class for table "trip_credit_balance".
  *
  * @property int $id
- * @property string $gross_amount
- * @property string $other_amount
- * @property string $net_amount
- * @property string $other_remarks
- * @property int $header_id refd to trip_billing_headers.id
+ * @property string $credit
+ * @property string $debit
+ * @property string $balance
+ * @property string $remarks
+ * @property int $client_id refd to clients.id
  * @property int $trip_transaction_id refd to trip_transactions.id
  * @property int $user_id refd to users.id
  * @property string $created_at
  * @property string $updated_at
+ * @property int $transaction_type 1=Credit 2=Debit 3=Delete
  * @property int $is_deleted
  *
- * @property TripBillingHeaders $header
+ * @property Clients $client
  * @property TripTransactions $tripTransaction
  * @property User $user
  */
-class TripBillingDetails extends \yii\db\ActiveRecord
+class TripCreditBalance extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'trip_billing_details';
+        return 'trip_credit_balance';
     }
 
     /**
@@ -39,12 +40,12 @@ class TripBillingDetails extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['gross_amount', 'other_amount', 'net_amount'], 'number'],
-            [['header_id', 'trip_transaction_id', 'user_id', 'created_at'], 'required'],
-            [['other_remarks'], 'string'],
-            [['header_id', 'trip_transaction_id', 'user_id', 'is_deleted'], 'integer'],
+            [['credit', 'debit', 'balance'], 'number'],
+            [['remarks'], 'string'],
+            [['client_id', 'trip_transaction_id', 'user_id', 'created_at'], 'required'],
+            [['client_id', 'trip_transaction_id', 'user_id', 'transaction_type', 'is_deleted'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['header_id'], 'exist', 'skipOnError' => true, 'targetClass' => TripBillingHeaders::className(), 'targetAttribute' => ['header_id' => 'id']],
+            [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::className(), 'targetAttribute' => ['client_id' => 'id']],
             [['trip_transaction_id'], 'exist', 'skipOnError' => true, 'targetClass' => TripTransactions::className(), 'targetAttribute' => ['trip_transaction_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -57,15 +58,16 @@ class TripBillingDetails extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'gross_amount' => 'Gross Amount',
-            'other_amount' => 'Other Amount',
-            'net_amount' => 'Net Amount',
-            'other_remarks' => 'Other Remarks',
-            'header_id' => 'Header ID',
+            'credit' => 'Credit',
+            'debit' => 'Debit',
+            'balance' => 'Balance',
+            'remarks' => 'Remarks',
+            'client_id' => 'Client ID',
             'trip_transaction_id' => 'Trip Transaction ID',
             'user_id' => 'User ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'transaction_type' => 'Transaction Type',
             'is_deleted' => 'Is Deleted',
         ];
     }
@@ -73,9 +75,9 @@ class TripBillingDetails extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getHeader()
+    public function getClient()
     {
-        return $this->hasOne(TripBillingHeaders::className(), ['id' => 'header_id']);
+        return $this->hasOne(Clients::className(), ['id' => 'client_id']);
     }
 
     /**
