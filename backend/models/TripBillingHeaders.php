@@ -13,6 +13,7 @@ use Yii;
  * @property int $prepared_by refd to employees.id
  * @property int $noted_by refd to employees.id
  * @property int $user_id refd to users.id
+ * @property int $client_id refd to clients.id
  * @property string $created_at
  * @property string $updated_at
  * @property int $status 1=New 2=On Going 3=Paid
@@ -23,6 +24,7 @@ use Yii;
  * @property Employees $preparedBy
  * @property Employees $notedBy
  * @property User $user
+ * @property Clients $client
  */
 class TripBillingHeaders extends \yii\db\ActiveRecord
 {
@@ -40,14 +42,15 @@ class TripBillingHeaders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['billing_no', 'prepared_by', 'noted_by', 'user_id', 'created_at'], 'required'],
+            [['billing_no', 'prepared_by', 'noted_by', 'user_id', 'client_id', 'created_at'], 'required'],
             [['total_amount'], 'number'],
-            [['prepared_by', 'noted_by', 'user_id', 'status', 'is_with_others', 'is_deleted'], 'integer'],
+            [['prepared_by', 'noted_by', 'user_id', 'client_id', 'status', 'is_with_others', 'is_deleted'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['billing_no'], 'string', 'max' => 50],
             [['prepared_by'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::className(), 'targetAttribute' => ['prepared_by' => 'id']],
             [['noted_by'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::className(), 'targetAttribute' => ['noted_by' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::className(), 'targetAttribute' => ['client_id' => 'id']],
         ];
     }
 
@@ -63,6 +66,7 @@ class TripBillingHeaders extends \yii\db\ActiveRecord
             'prepared_by' => 'Prepared By',
             'noted_by' => 'Noted By',
             'user_id' => 'User ID',
+            'client_id' => 'Client ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'status' => 'Status',
@@ -101,5 +105,13 @@ class TripBillingHeaders extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getClient()
+    {
+        return $this->hasOne(Clients::className(), ['id' => 'client_id']);
     }
 }

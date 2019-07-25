@@ -23,6 +23,7 @@ use common\models\utilities\Utilities;
  * @property ClientDirectCompanies[] $clientDirectCompanies
  * @property User $user
  * @property PaymentTerms $paymentTerm
+ * @property TripBillingHeaders[] $tripBillingHeaders
  * @property TripCreditBalance[] $tripCreditBalances
  * @property TripPaymentHeaders[] $tripPaymentHeaders
  * @property TripTransactions[] $tripTransactions
@@ -99,6 +100,14 @@ class Clients extends \yii\db\ActiveRecord
     public function getPaymentTerm()
     {
         return $this->hasOne(PaymentTerms::className(), ['id' => 'payment_term_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripBillingHeaders()
+    {
+        return $this->hasMany(TripBillingHeaders::className(), ['client_id' => 'id']);
     }
 
     /**
