@@ -253,4 +253,18 @@ class ClientsController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionAjaxFindOneById($id)
+    {
+        $model = Clients::findOne($id);
+
+        $data = array(
+            "name" => $model->name,
+            "email" => $model->email,
+            "contact_no" => $model->contact_no,
+            "payment_term_id" => $model->payment_term_id
+        );
+
+        return json_encode($data);
+    }
 }

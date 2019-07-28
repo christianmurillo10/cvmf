@@ -65,10 +65,10 @@ class TripCreditBalance extends \yii\db\ActiveRecord
             'client_id' => 'Client ID',
             'trip_transaction_id' => 'Trip Transaction ID',
             'user_id' => 'User ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Date Created',
+            'updated_at' => 'Last Modified',
             'transaction_type' => 'Transaction Type',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

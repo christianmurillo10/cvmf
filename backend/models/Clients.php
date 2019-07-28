@@ -74,7 +74,7 @@ class Clients extends \yii\db\ActiveRecord
             'created_at' => 'Date Created',
             'updated_at' => 'Last Modified',
             'client_type' => 'Client Type',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

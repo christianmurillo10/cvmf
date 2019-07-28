@@ -88,7 +88,7 @@ class TripTransactions extends \yii\db\ActiveRecord
             'trip_status' => 'Trip Status',
             'is_billed' => 'Billed?',
             'is_fully_paid' => 'Fully Paid?',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

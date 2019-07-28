@@ -97,7 +97,7 @@ class Trips extends \yii\db\ActiveRecord
             'date_delivered' => 'Date Delivered',
             'created_at' => 'Date Created',
             'updated_at' => 'Date Modified',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

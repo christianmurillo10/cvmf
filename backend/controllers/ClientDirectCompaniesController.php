@@ -156,12 +156,13 @@ class ClientDirectCompaniesController extends Controller
         }
     }
 
-    public function actionList($clientId)
+    public function actionDropDownClientDirectCompaniesList($clientId)
     {
         $models = ClientDirectCompanies::find()->where(['client_id' => $clientId, 'is_deleted' => Utilities::NO])->all();
 
         if(sizeof($models) > 0)
         {
+            echo "<option value=''>Choose One</option>";
             foreach ($models as $model) {
                 echo "<option value='".$model['id']."'>".$model['name']."</option>";
             }

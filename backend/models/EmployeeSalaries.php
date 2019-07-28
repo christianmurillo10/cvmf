@@ -63,7 +63,7 @@ class EmployeeSalaries extends \yii\db\ActiveRecord
             'created_at' => 'Date Created',
             'updated_at' => 'Last Modified',
             'is_current' => 'Is Current',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

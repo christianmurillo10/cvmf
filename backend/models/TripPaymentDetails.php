@@ -67,10 +67,10 @@ class TripPaymentDetails extends \yii\db\ActiveRecord
             'trip_transaction_id' => 'Trip Transaction ID',
             'header_id' => 'Header ID',
             'cheque_date' => 'Cheque Date',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Date Created',
+            'updated_at' => 'Last Modified',
             'payment_type' => 'Payment Type',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

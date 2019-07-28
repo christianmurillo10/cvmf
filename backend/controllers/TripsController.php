@@ -121,12 +121,12 @@ class TripsController extends Controller
                         }
 
                         // expenses
-                        foreach ($modelExpenses as $modelExpenses) {
-                            $modelExpenses->created_at = Utilities::get_DateTime();
-                            $modelExpenses->user_id = Utilities::get_UserID();
-                            $modelExpenses->trip_id = $model->id;
+                        foreach ($modelExpenses as $modelExpense) {
+                            $modelExpense->created_at = Utilities::get_DateTime();
+                            $modelExpense->user_id = Utilities::get_UserID();
+                            $modelExpense->trip_id = $model->id;
                             
-                            if (!($flag = $modelExpenses->save(false))) {
+                            if (!($flag = $modelExpense->save(false))) {
                                 break;
                             }
                         }

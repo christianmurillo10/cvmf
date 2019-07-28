@@ -92,7 +92,7 @@ class EmployeeContracts extends \yii\db\ActiveRecord
             'created_at' => 'Date Created',
             'updated_at' => 'Last Modified',
             'status' => 'Status',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

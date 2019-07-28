@@ -71,7 +71,7 @@ class TripExpenses extends \yii\db\ActiveRecord
             'updated_at' => 'Date Modified',
             'is_refundable' => 'Refundable?',
             'is_claimed' => 'Claimed?',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

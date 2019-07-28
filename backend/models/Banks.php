@@ -48,9 +48,9 @@ class Banks extends \yii\db\ActiveRecord
             'id' => 'ID',
             'code' => 'Code',
             'name' => 'Name',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'is_deleted' => 'Is Deleted',
+            'created_at' => 'Date Created',
+            'updated_at' => 'Last Modified',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

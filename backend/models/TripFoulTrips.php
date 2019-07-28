@@ -68,7 +68,7 @@ class TripFoulTrips extends \yii\db\ActiveRecord
             'date' => 'Date',
             'created_at' => 'Date Created',
             'updated_at' => 'Date Modified',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

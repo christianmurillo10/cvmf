@@ -51,7 +51,7 @@ class ExpenseLists extends \yii\db\ActiveRecord
             'description' => 'Description',
             'created_at' => 'Date Created',
             'updated_at' => 'Date Modified',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

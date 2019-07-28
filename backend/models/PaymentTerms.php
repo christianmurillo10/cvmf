@@ -15,6 +15,7 @@ use Yii;
  * @property int $is_deleted
  *
  * @property Clients[] $clients
+ * @property TripBillingHeaders[] $tripBillingHeaders
  */
 class PaymentTerms extends \yii\db\ActiveRecord
 {
@@ -50,7 +51,7 @@ class PaymentTerms extends \yii\db\ActiveRecord
             'value' => 'Value',
             'created_at' => 'Date Created',
             'updated_at' => 'Last Modified',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 
@@ -60,5 +61,13 @@ class PaymentTerms extends \yii\db\ActiveRecord
     public function getClients()
     {
         return $this->hasMany(Clients::className(), ['payment_term_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripBillingHeaders()
+    {
+        return $this->hasMany(TripBillingHeaders::className(), ['payment_term_id' => 'id']);
     }
 }

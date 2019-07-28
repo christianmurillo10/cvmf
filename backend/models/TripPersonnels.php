@@ -67,7 +67,7 @@ class TripPersonnels extends \yii\db\ActiveRecord
             'role_type' => 'Role Type',
             'created_at' => 'Date Created',
             'updated_at' => 'Date Modified',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

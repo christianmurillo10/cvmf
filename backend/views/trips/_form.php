@@ -193,13 +193,13 @@ if ($model->client_id) {
 
     function getClientDirectCompany(value) {
         $.ajax({
-            url: "?r=client-direct-companies/list",
+            url: "?r=client-direct-companies/drop-down-client-direct-companies-list",
             type: 'GET',
             data: {"clientId" : value},
             success: function(data) {
                 if (data != '') {
                     $("#clientDirectCompanyID").show();
-                    $( "select#clientDirectCompanyValueID" ).html(data);
+                    $("select#clientDirectCompanyValueID").html(data);
                 } else {
                     $("#clientDirectCompanyID").hide();
                     $("#clientDirectCompanyID").val('');

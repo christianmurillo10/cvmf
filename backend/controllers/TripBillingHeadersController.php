@@ -6,6 +6,7 @@ use Yii;
 use common\models\utilities\Utilities;
 use backend\models\TripBillingHeaders;
 use backend\models\TripBillingHeadersSearch;
+use backend\models\TripBillingDetails;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -66,28 +67,58 @@ class TripBillingHeadersController extends Controller
     public function actionCreate()
     {
         $model = new TripBillingHeaders();
+        $modelDetails = [new TripBillingDetails];
+
+        // default value
+        $model->status = TripBillingHeaders::BILLING_STATUS_NEW;
+        $model->is_with_others = Utilities::NO;
 
         if ($model->load(Yii::$app->request->post())) {
             $model->created_at = Utilities::get_DateTime();
+            $model->user_id = Utilities::get_UserID();
 
-            if ($model->validate()) {
-                $model->save();
+            // details
+            $modelDetails = Model::createMultiple(TripBillingDetails::classname());
+            Model::loadMultiple($modelDetails, Yii::$app->request->post());
 
-                Yii::$app->getSession()->setFlash('success', 'TripBillingHeaders successfully added');
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                $errors = [];
+            // validate all models
+            $valid = $model->validate();
+            $valid = Model::validateMultiple($modelDetails) && $valid;
 
-                foreach($model->errors as $error) {
-                    array_push($errors, $error[0]);
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $model->save(false)) {
+                        // details
+                        foreach ($modelDetails as $modelDetail) {
+                            $modelDetail->created_at = Utilities::get_DateTime();
+                            $modelDetail->header_id = $model->id;
+                            $modelDetail->user_id = Utilities::get_UserID();
+                            
+                            if (!($flag = $modelExpenses->save(false))) {
+                                break;
+                            }
+                        }
+                    }
+
+                    if ($flag) {
+                        $transaction->commit();
+
+                        Yii::$app->getSession()->setFlash('success', 'Trip Billing successfully added');
+                        return $this->redirect(['trip-billing-headers/view', 'id' => $model->id]);
+                    } else {
+                        $transaction->rollBack();
+                    }
+
+                } catch (Exception $e) {
+                    $transaction->rollBack();
                 }
-
-                Yii::$app->getSession()->setFlash('error', $errors);
             }
         }
             
         return $this->render('create', [
             'model' => $model,
+            'modelDetails' => (empty($modelDetails)) ? [new TripBillingDetails] : $modelDetails,
         ]);
     }
 

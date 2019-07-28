@@ -155,4 +155,17 @@ class TripTransactionsController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionDropDownClientTripTransactionList($clientId)
+    {
+        $models = TripTransactions::find()->where(['client_id' => $clientId, 'is_deleted' => Utilities::NO])->all();
+
+        if(sizeof($models) > 0)
+        {
+            echo "<option value=''>Choose One</option>";
+            foreach ($models as $model) {
+                echo "<option value='".$model['id']."'>".$model['ref_no']."</option>";
+            }
+        }
+    }
 }

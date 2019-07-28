@@ -88,7 +88,7 @@ class TripPartitions extends \yii\db\ActiveRecord
             'personnel_commission_type' => 'Personnel Commission Type',
             'maintenance_type' => 'Maintenance Type',
             'computation_type' => 'Computation Type',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

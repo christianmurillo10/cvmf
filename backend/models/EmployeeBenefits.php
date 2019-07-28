@@ -62,7 +62,7 @@ class EmployeeBenefits extends \yii\db\ActiveRecord
             'date_issued' => 'Date Issued',
             'created_at' => 'Date Created',
             'updated_at' => 'Last Modified',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

@@ -51,7 +51,7 @@ class EmployeeContractTypes extends \yii\db\ActiveRecord
             'description' => 'Description',
             'created_at' => 'Date Created',
             'updated_at' => 'Last Modified',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

@@ -64,10 +64,10 @@ class TripPaymentHeaders extends \yii\db\ActiveRecord
             'client_id' => 'Client ID',
             'user_id' => 'User ID',
             'date' => 'Date',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Date Created',
+            'updated_at' => 'Last Modified',
             'is_with_vat' => 'Is With Vat',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

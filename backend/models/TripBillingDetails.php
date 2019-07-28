@@ -61,12 +61,12 @@ class TripBillingDetails extends \yii\db\ActiveRecord
             'other_amount' => 'Other Amount',
             'net_amount' => 'Net Amount',
             'other_remarks' => 'Other Remarks',
-            'header_id' => 'Header ID',
-            'trip_transaction_id' => 'Trip Transaction ID',
-            'user_id' => 'User ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'is_deleted' => 'Is Deleted',
+            'header_id' => 'Header',
+            'trip_transaction_id' => 'Trip Transaction',
+            'user_id' => 'User',
+            'created_at' => 'Date Created',
+            'updated_at' => 'Last Modified',
+            'is_deleted' => 'Deleted?',
         ];
     }
 

@@ -120,7 +120,7 @@ class Employees extends \yii\db\ActiveRecord
             'gender_type' => 'Gender',
             'civil_status_type' => 'Civil Status',
             'is_active' => 'Active',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Deleted?',
         ];
     }
 
