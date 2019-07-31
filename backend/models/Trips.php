@@ -10,6 +10,8 @@ use common\models\utilities\Utilities;
  *
  * @property int $id
  * @property string $trip_no
+ * @property int $quantity
+ * @property string $rate_amount
  * @property string $amount
  * @property string $remarks
  * @property int $user_id refd to user.id
@@ -18,6 +20,7 @@ use common\models\utilities\Utilities;
  * @property int $vehicle_id refd to vehicles.id
  * @property int $destination_from_id refd to destinations.id
  * @property int $destination_to_id refd to destinations.id
+ * @property int $trip_load_type_id refd to trip_load_types.id
  * @property int $status 1=New 2=Done 3=Cancelled 4=Failed 5=Demurrage 6=Foul Trip
  * @property string $date_issued
  * @property string $date_delivered
@@ -37,6 +40,7 @@ use common\models\utilities\Utilities;
  * @property Destinations $destinationFrom
  * @property Destinations $destinationTo
  * @property ClientDirectCompanies $clientDirectCompany
+ * @property TripLoadTypes $tripLoadType
  */
 class Trips extends \yii\db\ActiveRecord
 {
@@ -61,10 +65,10 @@ class Trips extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['trip_no', 'amount', 'user_id', 'client_id', 'vehicle_id', 'destination_from_id', 'destination_to_id', 'date_issued', 'created_at'], 'required'],
-            [['amount'], 'number'],
+            [['trip_no', 'quantity', 'rate_amount', 'amount', 'user_id', 'client_id', 'vehicle_id', 'destination_from_id', 'destination_to_id', 'trip_load_type_id', 'date_issued', 'created_at'], 'required'],
+            [['rate_amount', 'amount'], 'number'],
             [['remarks'], 'string'],
-            [['user_id', 'client_id', 'client_direct_company_id', 'vehicle_id', 'destination_from_id', 'destination_to_id', 'status', 'is_deleted'], 'integer'],
+            [['quantity', 'user_id', 'client_id', 'client_direct_company_id', 'vehicle_id', 'destination_from_id', 'destination_to_id', 'trip_load_type_id', 'status', 'is_deleted'], 'integer'],
             [['date_issued', 'date_delivered', 'created_at', 'updated_at'], 'safe'],
             [['trip_no'], 'string', 'max' => 50],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -73,6 +77,7 @@ class Trips extends \yii\db\ActiveRecord
             [['destination_from_id'], 'exist', 'skipOnError' => true, 'targetClass' => Destinations::className(), 'targetAttribute' => ['destination_from_id' => 'id']],
             [['destination_to_id'], 'exist', 'skipOnError' => true, 'targetClass' => Destinations::className(), 'targetAttribute' => ['destination_to_id' => 'id']],
             [['client_direct_company_id'], 'exist', 'skipOnError' => true, 'targetClass' => ClientDirectCompanies::className(), 'targetAttribute' => ['client_direct_company_id' => 'id']],
+            [['trip_load_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => TripLoadTypes::className(), 'targetAttribute' => ['trip_load_type_id' => 'id']],
         ];
     }
 
@@ -84,6 +89,8 @@ class Trips extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'trip_no' => 'Trip No',
+            'quantity' => 'Quantity',
+            'rate_amount' => 'Rate Amount',
             'amount' => 'Amount',
             'remarks' => 'Remarks',
             'user_id' => 'User',
@@ -92,6 +99,7 @@ class Trips extends \yii\db\ActiveRecord
             'vehicle_id' => 'Vehicle',
             'destination_from_id' => 'Destination From',
             'destination_to_id' => 'Destination To',
+            'trip_load_type_id' => 'Load Type',
             'status' => 'Status',
             'date_issued' => 'Date Issued',
             'date_delivered' => 'Date Delivered',
@@ -195,6 +203,14 @@ class Trips extends \yii\db\ActiveRecord
     public function getClientDirectCompany()
     {
         return $this->hasOne(ClientDirectCompanies::className(), ['id' => 'client_direct_company_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTripLoadType()
+    {
+        return $this->hasOne(TripLoadTypes::className(), ['id' => 'trip_load_type_id']);
     }
 
     public static function get_ActiveStatus($id = null)
