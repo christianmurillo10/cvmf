@@ -90,7 +90,7 @@ class Trips extends \yii\db\ActiveRecord
             'id' => 'ID',
             'trip_no' => 'Trip No',
             'quantity' => 'Quantity',
-            'rate_amount' => 'Rate Amount',
+            'rate_amount' => 'Rate/Ton',
             'amount' => 'Amount',
             'remarks' => 'Remarks',
             'user_id' => 'User',

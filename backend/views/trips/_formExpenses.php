@@ -90,6 +90,7 @@ use common\models\utilities\Utilities;
                         <?= $form->field($modelExpense, "[{$i}]remarks")->label(false)->textInput(['maxlength' => true]) ?>
                     </td>
                     <td class="vcenter">
+                        <?php $modelExpense->is_refundable = Utilities::NO?>
                         <?= $form->field($modelExpense, "[{$i}]is_refundable")->label(false)->widget(Select2::classname(), [
                             'data' => Utilities::get_ActiveSelect(),
                             'language' => 'en',
@@ -100,6 +101,7 @@ use common\models\utilities\Utilities;
                         ]); ?>
                     </td>
                     <td class="vcenter">
+                        <?php $modelExpense->is_claimed = Utilities::NO?>
                         <?= $form->field($modelExpense, "[{$i}]is_claimed")->label(false)->widget(Select2::classname(), [
                             'data' => Utilities::get_ActiveSelect(),
                             'language' => 'en',

@@ -86,11 +86,12 @@ class TripsController extends Controller
         $model = new Trips();
         $modelPersonnels = [new TripPersonnels];
         $modelExpenses = [new TripExpenses];
+        
+        $model->status = Trips::TRIP_STATUS_NEW;
 
         if ($model->load(Yii::$app->request->post())) {
             $model->created_at = Utilities::get_DateTime();
             $model->user_id = Utilities::get_UserID();
-            $model->status = Trips::TRIP_STATUS_NEW;
 
             // pesonnels
             $modelPersonnels = Model::createMultiple(TripPersonnels::classname());

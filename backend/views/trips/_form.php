@@ -11,16 +11,11 @@ use backend\models\Vehicles;
 use backend\models\Destinations;
 use backend\models\Trips;
 use backend\models\ClientDirectCompanies;
+use backend\models\TripLoadTypes;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Trips */
 /* @var $form yii\widgets\ActiveForm */
-
-if ($model->status == Trips::TRIP_STATUS_DONE) {
-    $disabledDateDelivered = false;
-} else {
-    $disabledDateDelivered = true;
-}
 
 if ($model->client_id) {
     if (Clients::findOne($model->client_id)->client_type == Clients::CLIENT_TYPE_SUB_CONTRACTOR) {
@@ -69,8 +64,7 @@ if ($model->client_id) {
                                         'format' => 'yyyy-mm-dd'
                                     ],
                                     'options' => [
-                                        'id' => 'dateDeliveredID',
-                                        'disabled' => $disabledDateDelivered
+                                        'disabled' => true
                                     ]
                             ]);?>
                         </div>
@@ -79,18 +73,18 @@ if ($model->client_id) {
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-3">
-                            <?= $form->field($model, 'destination_from_id')->widget(Select2::classname(), [
-                                'data' => ArrayHelper::map(Destinations::find()->all(), 'id', 'name'),
+                            <?= $form->field($model, 'status')->widget(Select2::classname(), [
+                                'data' => Trips::get_ActiveStatus(),
                                 'language' => 'en',
-                                'options' => ['placeholder' => 'Choose One'],
+                                'options' => ['disabled' => true, 'placeholder' => 'Choose One'],
                                 'pluginOptions' => [
                                     'allowClear' => true
                                 ],
                             ]); ?>
                         </div>
                         <div class="col-md-3">
-                            <?= $form->field($model, 'destination_to_id')->widget(Select2::classname(), [
-                                'data' => ArrayHelper::map(Destinations::find()->all(), 'id', 'name'),
+                            <?= $form->field($model, 'vehicle_id')->widget(Select2::classname(), [
+                                'data' => ArrayHelper::map(Vehicles::find()->all(), 'id', 'plate_no'),
                                 'language' => 'en',
                                 'options' => ['placeholder' => 'Choose One'],
                                 'pluginOptions' => [
@@ -128,12 +122,9 @@ if ($model->client_id) {
                 </div>
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'remarks')->textarea(['rows' => 5]) ?>
-                        </div>
                         <div class="col-md-3">
-                            <?= $form->field($model, 'vehicle_id')->widget(Select2::classname(), [
-                                'data' => ArrayHelper::map(Vehicles::find()->all(), 'id', 'plate_no'),
+                            <?= $form->field($model, 'destination_from_id')->widget(Select2::classname(), [
+                                'data' => ArrayHelper::map(Destinations::find()->all(), 'id', 'name'),
                                 'language' => 'en',
                                 'options' => ['placeholder' => 'Choose One'],
                                 'pluginOptions' => [
@@ -142,16 +133,39 @@ if ($model->client_id) {
                             ]); ?>
                         </div>
                         <div class="col-md-3">
-                            <?= $form->field($model, 'status')->widget(Select2::classname(), [
-                                'data' => Trips::get_ActiveStatus(),
+                            <?= $form->field($model, 'destination_to_id')->widget(Select2::classname(), [
+                                'data' => ArrayHelper::map(Destinations::find()->all(), 'id', 'name'),
                                 'language' => 'en',
-                                'options' => ['onchange' => 'disableEnableByStatus(this.value);', 'placeholder' => 'Choose One'],
+                                'options' => ['placeholder' => 'Choose One'],
                                 'pluginOptions' => [
                                     'allowClear' => true
                                 ],
                             ]); ?>
                         </div>
-                        <div class="col-md-3 col-md-offset-3">
+                        <div class="col-md-3">
+                            <?= $form->field($model, 'trip_load_type_id')->widget(Select2::classname(), [
+                                'data' => ArrayHelper::map(TripLoadTypes::find()->all(), 'id', 'name'),
+                                'language' => 'en',
+                                'options' => ['placeholder' => 'Choose One'],
+                                'pluginOptions' => [
+                                    'allowClear' => true
+                                ],
+                            ]); ?>
+                        </div>
+                        <div class="col-md-3">
+                            <?= $form->field($model, 'quantity')->textInput(['class' => 'form-control text-right']) ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'remarks')->textarea(['rows' => 5]) ?>
+                        </div>
+                        <div class="col-md-3">
+                            <?= $form->field($model, 'rate_amount')->textInput(['class' => 'form-control text-right']) ?>
+                        </div>
+                        <div class="col-md-3">
                             <?= $form->field($model, 'amount')->textInput(['class' => 'form-control text-right']) ?>
                         </div>
                     </div>
@@ -181,16 +195,6 @@ if ($model->client_id) {
 <?php ActiveForm::end(); ?>
 
 <script>
-    function disableEnableByStatus(value) {
-        var done = <?= Trips::TRIP_STATUS_DONE ?>;
-
-        if (value == done) {
-            $('#dateDeliveredID').attr('disabled', false);
-        } else {
-            $('#dateDeliveredID').attr('disabled', true);
-        }
-    }
-
     function getClientDirectCompany(value) {
         $.ajax({
             url: "?r=client-direct-companies/drop-down-client-direct-companies-list",
